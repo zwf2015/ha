@@ -1,18 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
-namespace ConsoleApplication1
+namespace WindowsFormsApplication1
 {
-    class Program
+    public partial class Main : Form
     {
-        static void Main(string[] args)
+        public Main()
         {
-            ServicePointManager.DefaultConnectionLimit = 50;
+            ServicePointManager.DefaultConnectionLimit = 512;
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
 
             const string url = "http://baidu.com";
 
@@ -25,30 +33,29 @@ namespace ConsoleApplication1
                 input.Add(url);
             }
 
-
             Task task = new Task(() =>
             {
                 DoRequest(url);
             });
 
             task.Start();
-
-            Console.ReadKey();
         }
 
-        static void DoRequest(string url)
+
+        static HttpStatusCode DoRequest(string url)
         {
             WebRequest req = null;
             HttpWebResponse res = null;
+            HttpStatusCode hsc = HttpStatusCode.BadRequest;
             try
             {
-                req= WebRequest.Create(url);
+                req = WebRequest.Create(url);
                 res = (HttpWebResponse)req.GetResponse();
-                Console.WriteLine(res.StatusDescription);
+                hsc = res.StatusCode;
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+
             }
             finally
             {
@@ -57,6 +64,7 @@ namespace ConsoleApplication1
                 res = null;
                 req = null;
             }
+            return hsc;
         }
 
         static List<string> GetHref(string url)
