@@ -14,23 +14,7 @@ namespace ConsoleApplication1
         {
             const string url = "http://baidu.com";
 
-            WebRequest req = WebRequest.Create(url);
-
-            HttpWebResponse res = (HttpWebResponse)req.GetResponse();
-
-            Console.WriteLine(res.StatusDescription);
-
-            Stream data = res.GetResponseStream();
-
-            StreamReader sr = new StreamReader(data);
-
-            string result = sr.ReadToEnd();
-
-            Console.WriteLine(result);
-
-            sr.Close();
-            data.Close();
-            res.Close();
+            DoRequest(url);
 
             Console.ReadKey();
         }
