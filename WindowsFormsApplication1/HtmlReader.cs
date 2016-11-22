@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace ConsoleApplication1
+namespace WindowsFormsApplication1
 {
-    static class HtmlReader
+    public static class HtmlReader
     {
         public static string GetHtmlByUrl(string urlstring)
         {
@@ -26,7 +27,6 @@ namespace ConsoleApplication1
             }
         }
 
-
         //根据response获取HTML的单行字符串
         private static string BuildResponse(HttpWebResponse response, Encoding encodetype)
         {
@@ -41,6 +41,44 @@ namespace ConsoleApplication1
                 //去除非必要空格
                 return Regex.Replace(sb.ToString(), "\\s{2,}", " ");
             }
+        }
+
+        public static List<string> GetHref(string url)
+        {
+            var urls = new List<string>();
+            if (!string.IsNullOrWhiteSpace(url))
+            {
+                // const string Regex_Href = "href=\".*? \"";
+                const string Regex_Src = "src=\".*? \"";
+
+            }
+
+            return urls;
+        }
+
+        public static HttpStatusCode DoRequest(string url)
+        {
+            WebRequest req = null;
+            HttpWebResponse res = null;
+            HttpStatusCode hsc = HttpStatusCode.BadRequest;
+            try
+            {
+                req = WebRequest.Create(url);
+                res = (HttpWebResponse)req.GetResponse();
+                hsc = res.StatusCode;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                res.Close();
+                req.Abort();
+                res = null;
+                req = null;
+            }
+            return hsc;
         }
     }
 }
