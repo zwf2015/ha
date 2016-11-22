@@ -1,4 +1,6 @@
-﻿namespace WindowsFormsApplication1
+﻿using System;
+
+namespace WindowsFormsApplication1
 {
     public static class Resource
     {
@@ -26,6 +28,11 @@
                     || url.ToLower().StartsWith(Resource.Https_Protocol)
                     || url.ToLower().StartsWith(Resource.Free_Protocol));
             }
+
+            //Uri uriResult;
+            //return Uri.TryCreate(url, UriKind.Absolute, out uriResult)
+            //    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+
             return false;
         }
     }

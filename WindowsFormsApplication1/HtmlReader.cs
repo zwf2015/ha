@@ -56,29 +56,6 @@ namespace WindowsFormsApplication1
             return urls;
         }
 
-        public static HttpStatusCode DoRequest(string url)
-        {
-            WebRequest req = null;
-            HttpWebResponse res = null;
-            HttpStatusCode hsc = HttpStatusCode.BadRequest;
-            try
-            {
-                req = WebRequest.Create(url);
-                res = (HttpWebResponse)req.GetResponse();
-                hsc = res.StatusCode;
-            }
-            catch (Exception ex)
-            {
-
-            }
-            finally
-            {
-                res.Close();
-                req.Abort();
-                res = null;
-                req = null;
-            }
-            return hsc;
-        }
+        
     }
 }

@@ -37,12 +37,13 @@ namespace WindowsFormsApplication1
             log.Error(msg, ex);
         }
         /// <summary>
-        /// 扩展的写日志方法
+        /// 记录 <see cref="LogFile.Logs"/> 级别的日志
         /// </summary>
         /// <param name="msg"></param>
         public static void WriteLog(string msg)
         {
-            WriteLog("Logs", msg);
+            // WriteLog("Logs", msg);
+            WriteLog(LogFile.Logs, msg);
         }
 
         internal static void WriteLog(LogFile logFile, string msg, Exception ex)
