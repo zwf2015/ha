@@ -1,11 +1,9 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,87 +12,89 @@ namespace WindowsFormsApplication1
 {
     public partial class Main : Form
     {
-        private const string url = "http://baidu.com";
 
+        ConcurrentDictionary<string, List<string>> dic = new ConcurrentDictionary<string, List<string>>((Environment.ProcessorCount * 2), 8);
 
         List<string> output_OK = new List<string>();
         List<string> output_ERROR = new List<string>();
 
+        List<string> http = new List<string>();
+        List<string> https = new List<string>();
+        List<string> freeProtcol = new List<string>();
+
         List<string> input = new List<string>();
+
+        bool AutoCheckHttps = true;
 
         public Main()
         {
             ServicePointManager.DefaultConnectionLimit = 512;
             InitializeComponent();
-
-            // Task: http://www.cnblogs.com/pengstone/archive/2012/12/23/2830238.html
-
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
-        }
-
-        private void Test()
-        {
-            for (int i = 0; i < 20; i++)
-            {
-                input.Add(url);
-            }
-
-            Task task = new Task(() =>
-            {
-                DoRequest(url);
-            });
-
-            task.Start();
-        }
-
-
-        static HttpStatusCode DoRequest(string url)
-        {
-            WebRequest req = null;
-            HttpWebResponse res = null;
-            HttpStatusCode hsc = HttpStatusCode.BadRequest;
-            try
-            {
-                req = WebRequest.Create(url);
-                res = (HttpWebResponse)req.GetResponse();
-                hsc = res.StatusCode;
-            }
-            catch (Exception ex)
-            {
-
-            }
-            finally
-            {
-                res.Close();
-                req.Abort();
-                res = null;
-                req = null;
-            }
-            return hsc;
-        }
-
-        static List<string> GetHref(string url)
-        {
-            var urls = new List<string>();
-            if (!string.IsNullOrWhiteSpace(url))
-            {
-                // const string Regex_Href = "href=\".*? \"";
-                const string Regex_Src = "src=\".*? \"";
-
-
-            }
-
-            return urls;
+            this.btn_Go.Enabled = false;
+            this.tbx_url.Enabled = false;
         }
 
         private void btn_Go_Click(object sender, EventArgs e)
         {
+            this.btn_Go.Enabled = false;
+
             TaskScheduler syncContextTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
+            var cts = new CancellationTokenSource(1000);
+            Task task = new Task(() =>
+            {
+                TaskFactory tf = new TaskFactory(cts.Token, TaskCreationOptions.AttachedToParent, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
+                Task[] tasks = new Task[]
+                {
+                    tf.StartNew(()=> {
+                        foreach (var url in http)
+                        {
+                            if(HttpStatusCode.OK == DoRequest(url))
+                            {
+                                output_OK.Add(url);
+                            }else
+                            {
+                                output_ERROR.Add(url);
+                            }
+                        }
+                    }),
+                    tf.StartNew(()=> {
+                        foreach (var url in https)
+                        {
+                            if(HttpStatusCode.OK == DoRequest(url))
+                            {
+                                output_OK.Add(url);
+                            }else
+                            {
+                                output_ERROR.Add(url);
+                            }
+                        }
+                    })
+                };
+            });
+
+            task.ContinueWith(t =>
+                    {
+                        this.rtb_output.AppendText(string.Format("All task done!", Environment.NewLine));
+                        this.btn_Go.Enabled = true;
+                    },
+                cts.Token,
+                TaskContinuationOptions.AttachedToParent,
+                syncContextTaskScheduler);
+
+            task.Start();
+
+        }
+
+        private void test()
+        {
+            TaskScheduler syncContextTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+
+            string url = this.tbx_url.Text.Trim();
             Task<int> task = new Task<int>(() =>
             {
                 return (int)DoRequest(url);
@@ -104,9 +104,9 @@ namespace WindowsFormsApplication1
 
             task.ContinueWith(
                 t =>
-                    {
-                        this.rtb_output.AppendText(string.Format("Result is: {0}.{1}", task.Result.ToString(), Environment.NewLine));
-                    },
+                {
+                    this.rtb_output.AppendText(string.Format("Result is: {0}.{1}", task.Result.ToString(), Environment.NewLine));
+                },
                 cts.Token,
                 TaskContinuationOptions.AttachedToParent,
                 syncContextTaskScheduler);
@@ -114,17 +114,12 @@ namespace WindowsFormsApplication1
             task.Start();
         }
 
-        private void openFile_FileOk(object sender, CancelEventArgs e)
-        {
-
-        }
-
-        private void btn_Cancel_Click(object sender, EventArgs e)
+        private void btn_Openfile_Click(object sender, EventArgs e)
         {
             OpenFileDialog oFD = new OpenFileDialog();
-            oFD.Title = "Open file";
+            oFD.Title = Resource.OpenFileDialog_Title;
             oFD.ShowHelp = true;
-            oFD.Filter = "Plain Text|*.txt|All Files|*.*";
+            oFD.Filter = Resource.OpenFileDialog_Filter;
             oFD.FilterIndex = 1;
             oFD.RestoreDirectory = false;
             oFD.Multiselect = false;
@@ -132,20 +127,77 @@ namespace WindowsFormsApplication1
             {
                 this.rtb_output.AppendText(string.Format("Reading file: {0}...{1}", oFD.FileName, Environment.NewLine));
 
+                // 读取文件
                 Task task = new Task(() =>
                 {
                     ReadFile(oFD.FileName);
                 });
-
                 task.Start();
 
-                TaskScheduler syncContextTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+                // 分类
+                Task tc = task.ContinueWith(t =>
+                {
+                    http = input.Where(a => a.ToLower().StartsWith(Resource.Http_Protocol)).Distinct().ToList();
+                    freeProtcol = input.Where(a => a.ToLower().StartsWith(Resource.Free_Protocol)).Distinct().ToList();
+                    https = input.Where(a => a.ToLower().StartsWith(Resource.Https_Protocol)).Distinct().ToList();
 
-                Task cwt = task.ContinueWith(t =>
+                    if (AutoCheckHttps)
+                    {
+                        http.AddRange(freeProtcol.Select(a => a.TrimStart('/').Insert(0, Resource.Http_Protocol)));
+                        http = http.Distinct().ToList();
+
+                        https.AddRange(http.Select(a => a.Insert(4, "s")));
+                        https = https.Distinct().ToList();
+                    }
+                    string inputData = string.Format("Effective urls: {0} http, {1} https.", http.Count, https.Count);
+                    SetText(inputData);
+                });
+
+                // 输出分类结果
+                TaskScheduler syncContextTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+                Task cwt = tc.ContinueWith(t =>
                 {
                     this.rtb_output.AppendText(string.Format("Read {0} url(s) form file.{1}", this.input.Count, Environment.NewLine));
                 }, syncContextTaskScheduler);
+
+                this.btn_Go.Enabled = true;
             }
+        }
+
+        private HttpStatusCode DoRequest(string url)
+        {
+            WebRequest req = null;
+            HttpWebResponse res = null;
+            HttpStatusCode hsc = HttpStatusCode.BadRequest;
+            try
+            {
+                req = WebRequest.Create(url);
+                req.Timeout = 1000 * 10;
+
+                res = (HttpWebResponse)req.GetResponse();
+                hsc = res.StatusCode;
+                // SetText(string.Format("{0}: {1}.", (int)hsc, url));
+            }
+            catch (Exception ex)
+            {
+                string errMsg = string.Format("Do Request of {0} Error: {1}.", url, ex.Message);
+                SetText(errMsg);
+                LogManager.WriteLog(errMsg, ex);
+            }
+            finally
+            {
+                if (res != null)
+                {
+                    res.Close();
+                }
+                if (req != null)
+                {
+                    req.Abort();
+                }
+                res = null;
+                req = null;
+            }
+            return hsc;
         }
 
         private void ReadFile(string path)
@@ -154,20 +206,63 @@ namespace WindowsFormsApplication1
             {
                 string[] lines = System.IO.File.ReadAllLines(path);
                 input = lines
-                    .Where(a =>
-                        !string.IsNullOrWhiteSpace(a)
-                        &&
-                        (a.StartsWith("http", StringComparison.OrdinalIgnoreCase)
-                          || a.StartsWith("https", StringComparison.OrdinalIgnoreCase)
-                          || a.StartsWith("//", StringComparison.OrdinalIgnoreCase)
-                        ))
+                    .Where(a => StringExtension.IsUrl(a))
                     // .Distinct()
                     .ToList();
             }
             catch (Exception ex)
             {
-                this.rtb_output.AppendText(string.Format("Can not read file {0}: {1}!", path, ex.Message));
+                SetText(string.Format("ERROR: Can not read file {0}: {1}!", path, ex.Message));
             }
         }
+
+        /// <summary>
+        /// 从文件读取Urls
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void rdoBtn_file_CheckedChanged(object sender, EventArgs e)
+        {
+            this.btn_Go.Enabled = false;
+            this.btn_Openfile.Enabled = this.rdoBtn_file.Checked;
+        }
+
+        /// <summary>
+        /// 从给定的页面读取Urls
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void rdoBtn_url_CheckedChanged(object sender, EventArgs e)
+        {
+            this.tbx_url.Enabled = this.rdoBtn_url.Checked;
+            this.btn_Go.Enabled = StringExtension.IsUrl(this.tbx_url.Text);
+        }
+
+        private void tbx_url_TextChanged(object sender, EventArgs e)
+        {
+            this.btn_Go.Enabled = StringExtension.IsUrl(this.tbx_url.Text);
+        }
+
+        private void SetText(string text)
+        {
+            if (this.rtb_output.InvokeRequired)
+            {
+                this.Invoke(new SetTextCallback(SetText), text);
+            }
+            else
+            {
+                this.rtb_output.AppendText(text);
+                this.rtb_output.AppendText(Environment.NewLine);
+                this.rtb_output.Focus();
+            }
+        }
+
+        private void chb_AutoHttps_CheckedChanged(object sender, EventArgs e)
+        {
+            this.AutoCheckHttps = this.chb_AutoHttps.Checked;
+        }
     }
+
+    delegate void SetTextCallback(string text);
+
 }
