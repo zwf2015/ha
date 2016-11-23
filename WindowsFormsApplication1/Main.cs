@@ -12,7 +12,6 @@ namespace WindowsFormsApplication1
 {
     public partial class Main : Form
     {
-
         ConcurrentDictionary<string, List<string>> dic = new ConcurrentDictionary<string, List<string>>((Environment.ProcessorCount * 2), 8);
 
         List<string> output_OK = new List<string>();
@@ -43,51 +42,61 @@ namespace WindowsFormsApplication1
             this.btn_Go.Enabled = false;
 
             TaskScheduler syncContextTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            CancellationTokenSource cts = new CancellationTokenSource();
 
-            var cts = new CancellationTokenSource(1000);
-            Task task = new Task(() =>
+            Task<OutPutList> task = new Task<OutPutList>(state =>
             {
-                TaskFactory tf = new TaskFactory(cts.Token, TaskCreationOptions.AttachedToParent, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
-                Task[] tasks = new Task[]
+                OutPutList result = new OutPutList();
+                result.Output_OK = new List<string>();
+                result.OutPut_Error = new List<string>();
+                SetText(state.ToString());
+                new Task(() =>
                 {
-                    tf.StartNew(()=> {
-                        foreach (var url in http)
+                    foreach (var url in http)
+                    {
+                        if (HttpStatusCode.OK == DoRequest(url))
                         {
-                            if(HttpStatusCode.OK == DoRequest(url))
-                            {
-                                output_OK.Add(url);
-                            }else
-                            {
-                                output_ERROR.Add(url);
-                            }
+                            result.Output_OK.Add(url);
                         }
-                    }),
-                    tf.StartNew(()=> {
-                        foreach (var url in https)
+                        else
                         {
-                            if(HttpStatusCode.OK == DoRequest(url))
-                            {
-                                output_OK.Add(url);
-                            }else
-                            {
-                                output_ERROR.Add(url);
-                            }
+                            result.OutPut_Error.Add(url);
                         }
-                    })
-                };
+                    }
+                }).Start();
+                new Task(() =>
+                {
+                    foreach (var url in https)
+                    {
+                        if (HttpStatusCode.OK == DoRequest(url))
+                        {
+                            result.Output_OK.Add(url);
+                        }
+                        else
+                        {
+                            result.OutPut_Error.Add(url);
+                        }
+                    }
+                }).Start();
+                return result;
+            }, "Begin Do Request...");
+
+            task.ContinueWith(t =>
+            {
+                SetText(string.Format("Parent continue: {0}.", t.Result.Http_Ok_Count));
+                SetText(Environment.NewLine);
             });
 
             task.ContinueWith(t =>
                     {
-                        this.rtb_output.AppendText(string.Format("All task done!", Environment.NewLine));
+                        var output = t.Result;
+                        this.rtb_output.AppendText("All task done!");
+                        this.rtb_output.AppendText(Environment.NewLine);
+                        this.rtb_output.AppendText(output.GetReport);
                         this.btn_Go.Enabled = true;
-                    },
-                cts.Token,
-                TaskContinuationOptions.AttachedToParent,
-                syncContextTaskScheduler);
+                    }, cts.Token, TaskContinuationOptions.ExecuteSynchronously, syncContextTaskScheduler);
 
             task.Start();
-
         }
 
         private void test()
@@ -176,7 +185,7 @@ namespace WindowsFormsApplication1
 
                 res = (HttpWebResponse)req.GetResponse();
                 hsc = res.StatusCode;
-                // SetText(string.Format("{0}: {1}.", (int)hsc, url));
+                SetText(string.Format("{0}: {1}.", (int)hsc, url));
             }
             catch (Exception ex)
             {
@@ -207,7 +216,7 @@ namespace WindowsFormsApplication1
                 string[] lines = System.IO.File.ReadAllLines(path);
                 input = lines
                     .Where(a => StringExtension.IsUrl(a))
-                    // .Distinct()
+                    .Distinct()
                     .ToList();
             }
             catch (Exception ex)
@@ -260,6 +269,33 @@ namespace WindowsFormsApplication1
         private void chb_AutoHttps_CheckedChanged(object sender, EventArgs e)
         {
             this.AutoCheckHttps = this.chb_AutoHttps.Checked;
+        }
+    }
+
+    public class OutPutList
+    {
+        public List<string> Output_OK { get; set; }
+        public List<string> OutPut_Error { get; set; }
+        public int Http_Ok_Count { get { return Output_OK.Count(x => x.StartsWith(Resource.Http_Protocol)); } }
+        public int Https_Ok_Count { get { return Output_OK.Count(x => x.StartsWith(Resource.Https_Protocol)); } }
+        public int Http_Error_Count { get { return OutPut_Error.Count(x => x.StartsWith(Resource.Http_Protocol)); } }
+        public int Https_Error_Count { get { return OutPut_Error.Count(x => x.StartsWith(Resource.Https_Protocol)); } }
+        public string GetReport
+        {
+            get
+            {
+                string report = @"
+Report:
+\tType\tTotal\tOk\tError
+\thttp\t{0}\t{1}\t{2}
+\thttps\t{3}\t{4}\t{5}
+";
+
+                return string.Format(report
+                    , Output_OK.Count, Http_Ok_Count, Http_Error_Count
+                    , OutPut_Error.Count, Https_Ok_Count, Https_Error_Count
+                    );
+            }
         }
     }
 

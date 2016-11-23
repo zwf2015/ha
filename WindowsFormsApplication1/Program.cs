@@ -17,7 +17,7 @@ namespace WindowsFormsApplication1
             Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-            LoadFileAppender();
+            // LoadFileAppender();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -62,7 +62,7 @@ namespace WindowsFormsApplication1
             fileAppender.Encoding = System.Text.Encoding.UTF8;
 
             PatternLayout patternLayout = new PatternLayout();
-            patternLayout.ConversionPattern = "%date [%thread] %-5level%n %location%n %message%n %exception%n";
+            patternLayout.ConversionPattern = "%date [%thread] %-5level%n %message%n %exception%n";
             patternLayout.ActivateOptions();
 
             fileAppender.Layout = patternLayout;
