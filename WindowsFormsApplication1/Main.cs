@@ -44,59 +44,57 @@ namespace WindowsFormsApplication1
             TaskScheduler syncContextTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
             CancellationTokenSource cts = new CancellationTokenSource();
 
-            Task<OutPutList> task = new Task<OutPutList>(state =>
+            Task<OutPutList> task_http = new Task<OutPutList>(() =>
             {
                 OutPutList result = new OutPutList();
                 result.Output_OK = new List<string>();
                 result.OutPut_Error = new List<string>();
-                SetText(state.ToString());
-                new Task(() =>
+                foreach (var url in http)
                 {
-                    foreach (var url in http)
+                    if (HttpStatusCode.OK == DoRequest(url))
                     {
-                        if (HttpStatusCode.OK == DoRequest(url))
-                        {
-                            result.Output_OK.Add(url);
-                        }
-                        else
-                        {
-                            result.OutPut_Error.Add(url);
-                        }
+                        result.Output_OK.Add(url);
                     }
-                }).Start();
-                new Task(() =>
-                {
-                    foreach (var url in https)
+                    else
                     {
-                        if (HttpStatusCode.OK == DoRequest(url))
-                        {
-                            result.Output_OK.Add(url);
-                        }
-                        else
-                        {
-                            result.OutPut_Error.Add(url);
-                        }
+                        result.OutPut_Error.Add(url);
                     }
-                }).Start();
+                }
                 return result;
-            }, "Begin Do Request...");
+            });
+            task_http.Start();
 
-            task.ContinueWith(t =>
+            Task<OutPutList> task_Https = task_http.ContinueWith((t) =>
             {
-                SetText(string.Format("Parent continue: {0}.", t.Result.Http_Ok_Count));
-                SetText(Environment.NewLine);
+                var result = t.Result;
+                foreach (var url in https)
+                {
+                    if (HttpStatusCode.OK == DoRequest(url))
+                    {
+                        result.Output_OK.Add(url);
+                    }
+                    else
+                    {
+                        result.OutPut_Error.Add(url);
+                    }
+                }
+                return result;
             });
 
-            task.ContinueWith(t =>
+            Task task_Report = task_Https.ContinueWith(t =>
+            {
+                var output = t.Result;
+                SetText("All task done!");
+                SetText(Environment.NewLine);
+                SetText(output.GetReport);
+                return output;
+            });
+
+            Task t3 = task_Report.ContinueWith(t =>
                     {
-                        var output = t.Result;
-                        this.rtb_output.AppendText("All task done!");
-                        this.rtb_output.AppendText(Environment.NewLine);
-                        this.rtb_output.AppendText(output.GetReport);
                         this.btn_Go.Enabled = true;
                     }, cts.Token, TaskContinuationOptions.ExecuteSynchronously, syncContextTaskScheduler);
 
-            task.Start();
         }
 
         private void test()
@@ -284,12 +282,7 @@ namespace WindowsFormsApplication1
         {
             get
             {
-                string report = @"
-Report:
-\tType\tTotal\tOk\tError
-\thttp\t{0}\t{1}\t{2}
-\thttps\t{3}\t{4}\t{5}
-";
+                string report = "Report:\r\n\tType\tTotal\tOk\tError\r\n\thttp\t{0}\t{1}\t{2}\r\n\thttps\t{3}\t{4}\t{5}";
 
                 return string.Format(report
                     , Output_OK.Count, Http_Ok_Count, Http_Error_Count
