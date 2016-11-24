@@ -84,9 +84,11 @@ namespace UrlStatus
             Task task_Report = task_Https.ContinueWith(t =>
             {
                 var output = t.Result;
-                SetText("All task done!");
                 SetText(Environment.NewLine);
                 SetText(output.GetReport);
+                SetText(Environment.NewLine);
+                SetText("All task done!");
+                SetText(Environment.NewLine);
                 return output;
             });
 
