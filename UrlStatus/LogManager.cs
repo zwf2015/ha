@@ -1,7 +1,7 @@
 ﻿using System;
 using log4net;
 
-namespace WindowsFormsApplication1
+namespace UrlStatus
 {
     public static class LogManager
     {

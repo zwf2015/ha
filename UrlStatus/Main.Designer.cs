@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApplication1
+﻿namespace UrlStatus
 {
     partial class Main
     {
@@ -35,9 +35,9 @@
             this.rdoBtn_url = new System.Windows.Forms.RadioButton();
             this.rdoBtn_file = new System.Windows.Forms.RadioButton();
             this.btn_Openfile = new System.Windows.Forms.Button();
+            this.chb_AutoHttps = new System.Windows.Forms.CheckBox();
             this.btn_Go = new System.Windows.Forms.Button();
             this.rtb_output = new System.Windows.Forms.RichTextBox();
-            this.chb_AutoHttps = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -142,6 +142,19 @@
             this.btn_Openfile.UseVisualStyleBackColor = true;
             this.btn_Openfile.Click += new System.EventHandler(this.btn_Openfile_Click);
             // 
+            // chb_AutoHttps
+            // 
+            this.chb_AutoHttps.AutoSize = true;
+            this.chb_AutoHttps.Checked = true;
+            this.chb_AutoHttps.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chb_AutoHttps.Location = new System.Drawing.Point(13, 85);
+            this.chb_AutoHttps.Name = "chb_AutoHttps";
+            this.chb_AutoHttps.Size = new System.Drawing.Size(104, 17);
+            this.chb_AutoHttps.TabIndex = 1;
+            this.chb_AutoHttps.Text = "AutoCheckHttps";
+            this.chb_AutoHttps.UseVisualStyleBackColor = true;
+            this.chb_AutoHttps.CheckedChanged += new System.EventHandler(this.chb_AutoHttps_CheckedChanged);
+            // 
             // btn_Go
             // 
             this.btn_Go.Location = new System.Drawing.Point(64, 40);
@@ -161,19 +174,6 @@
             this.rtb_output.TabIndex = 0;
             this.rtb_output.Text = "";
             // 
-            // chb_AutoHttps
-            // 
-            this.chb_AutoHttps.AutoSize = true;
-            this.chb_AutoHttps.Checked = true;
-            this.chb_AutoHttps.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chb_AutoHttps.Location = new System.Drawing.Point(13, 85);
-            this.chb_AutoHttps.Name = "chb_AutoHttps";
-            this.chb_AutoHttps.Size = new System.Drawing.Size(104, 17);
-            this.chb_AutoHttps.TabIndex = 1;
-            this.chb_AutoHttps.Text = "AutoCheckHttps";
-            this.chb_AutoHttps.UseVisualStyleBackColor = true;
-            this.chb_AutoHttps.CheckedChanged += new System.EventHandler(this.chb_AutoHttps_CheckedChanged);
-            // 
             // Main
             // 
             this.AcceptButton = this.btn_Go;
@@ -183,7 +183,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "HttpsSpider";
+            this.Text = "UrlStatus";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);

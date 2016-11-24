@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WindowsFormsApplication1
+namespace UrlStatus
 {
     public static class Resource
     {

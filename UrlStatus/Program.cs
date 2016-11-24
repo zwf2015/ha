@@ -4,7 +4,7 @@ using log4net.Appender;
 using log4net.Config;
 using log4net.Layout;
 
-namespace WindowsFormsApplication1
+namespace UrlStatus
 {
     static class Program
     {

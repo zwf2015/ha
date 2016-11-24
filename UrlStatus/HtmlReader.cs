@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace WindowsFormsApplication1
+namespace UrlStatus
 {
     public static class HtmlReader
     {
@@ -32,7 +32,7 @@ namespace WindowsFormsApplication1
         {
             using (Stream resstream = response.GetResponseStream())
             {
-                resstream.ReadTimeout = 30 * 1000;
+                resstream.ReadTimeout = 10 * 1000;
                 StreamReader sr = new StreamReader(resstream, encodetype);
                 StringBuilder sb = new StringBuilder();
                 sb.Append(sr.ReadToEnd());
