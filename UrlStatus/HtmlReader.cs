@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Net;
+using System.Linq;
 using System.Text;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace UrlStatus
@@ -43,19 +43,25 @@ namespace UrlStatus
             }
         }
 
-        public static List<string> GetHref(string url)
+        /// <summary>
+        /// Regex urls from text.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static List<string> GetUrls(string text)
         {
             var urls = new List<string>();
-            if (!string.IsNullOrWhiteSpace(url))
+            if (!string.IsNullOrWhiteSpace(text))
             {
-                // const string Regex_Href = "href=\".*? \"";
-                const string Regex_Src = "src=\".*? \"";
-
+                Regex rex = new Regex(Resource.UrlRegex1, RegexOptions.IgnoreCase);
+                MatchCollection mc = rex.Matches(text);
+                foreach (Match m in mc)
+                {
+                    urls.Add(m.Value);
+                }
+                return urls.Where(a => StringExtension.IsUrl(a)).Distinct().ToList();
             }
-
             return urls;
         }
-
-        
     }
 }

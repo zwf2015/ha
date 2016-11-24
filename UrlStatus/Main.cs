@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -25,10 +27,14 @@ namespace UrlStatus
 
         bool AutoCheckHttps = true;
 
+        TaskScheduler windowTaskScheduler = null;
+
         public Main()
         {
             ServicePointManager.DefaultConnectionLimit = 512;
             InitializeComponent();
+            windowTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            string ignoreUrls = System.Configuration.ConfigurationSettings.AppSettings.Get("");
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -40,8 +46,27 @@ namespace UrlStatus
         private void btn_Go_Click(object sender, EventArgs e)
         {
             this.btn_Go.Enabled = false;
+            bool fromUrl = this.rdoBtn_url.Checked;
+            string url = this.tbx_url.Text;
 
-            TaskScheduler syncContextTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            Task task = new Task(() =>
+            {
+                if (fromUrl)
+                {
+                    SetText(string.Format("Reading html page: {0}...{1}", url, Environment.NewLine));
+                    InitUrlDatas(HtmlReader.GetHtmlByUrl(url));
+                }
+            });
+
+            task.Start();
+            Task tc = task.ContinueWith(t =>
+            {
+                DoCheck(windowTaskScheduler);
+            });
+        }
+
+        private void DoCheck(TaskScheduler windowTaskScheduler)
+        {
             CancellationTokenSource cts = new CancellationTokenSource();
 
             Task<OutPutList> task_http = new Task<OutPutList>(() =>
@@ -89,38 +114,17 @@ namespace UrlStatus
                 SetText(Environment.NewLine);
                 SetText("All task done!");
                 SetText(Environment.NewLine);
+                SetText(output.GetErrorUrls);
+                SetText(Environment.NewLine);
+
                 return output;
             });
 
             Task t3 = task_Report.ContinueWith(t =>
-                    {
-                        this.btn_Go.Enabled = true;
-                    }, cts.Token, TaskContinuationOptions.ExecuteSynchronously, syncContextTaskScheduler);
-
-        }
-
-        private void test()
-        {
-            TaskScheduler syncContextTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
-
-            string url = this.tbx_url.Text.Trim();
-            Task<int> task = new Task<int>(() =>
             {
-                return (int)DoRequest(url);
-            });
+                this.btn_Go.Enabled = true;
+            }, cts.Token, TaskContinuationOptions.ExecuteSynchronously, windowTaskScheduler);
 
-            var cts = new CancellationTokenSource();
-
-            task.ContinueWith(
-                t =>
-                {
-                    this.rtb_output.AppendText(string.Format("Result is: {0}.{1}", task.Result.ToString(), Environment.NewLine));
-                },
-                cts.Token,
-                TaskContinuationOptions.AttachedToParent,
-                syncContextTaskScheduler);
-
-            task.Start();
         }
 
         private void btn_Openfile_Click(object sender, EventArgs e)
@@ -135,41 +139,7 @@ namespace UrlStatus
             if (oFD.ShowDialog() == DialogResult.OK)
             {
                 this.rtb_output.AppendText(string.Format("Reading file: {0}...{1}", oFD.FileName, Environment.NewLine));
-
-                // 读取文件
-                Task task = new Task(() =>
-                {
-                    ReadFile(oFD.FileName);
-                });
-                task.Start();
-
-                // 分类
-                Task tc = task.ContinueWith(t =>
-                {
-                    http = input.Where(a => a.ToLower().StartsWith(Resource.Http_Protocol)).Distinct().ToList();
-                    freeProtcol = input.Where(a => a.ToLower().StartsWith(Resource.Free_Protocol)).Distinct().ToList();
-                    https = input.Where(a => a.ToLower().StartsWith(Resource.Https_Protocol)).Distinct().ToList();
-
-                    if (AutoCheckHttps)
-                    {
-                        http.AddRange(freeProtcol.Select(a => a.TrimStart('/').Insert(0, Resource.Http_Protocol)));
-                        http = http.Distinct().ToList();
-
-                        https.AddRange(http.Select(a => a.Insert(4, "s")));
-                        https = https.Distinct().ToList();
-                    }
-                    string inputData = string.Format("Effective urls: {0} http, {1} https.", http.Count, https.Count);
-                    SetText(inputData);
-                });
-
-                // 输出分类结果
-                TaskScheduler syncContextTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
-                Task cwt = tc.ContinueWith(t =>
-                {
-                    this.rtb_output.AppendText(string.Format("Read {0} url(s) form file.{1}", this.input.Count, Environment.NewLine));
-                }, syncContextTaskScheduler);
-
-                this.btn_Go.Enabled = true;
+                InitUrlDatas(ReadFile(oFD.FileName));
             }
         }
 
@@ -209,20 +179,55 @@ namespace UrlStatus
             return hsc;
         }
 
-        private void ReadFile(string path)
+        private string ReadFile(string path)
         {
+            var content = string.Empty;
             try
             {
-                string[] lines = System.IO.File.ReadAllLines(path);
-                input = lines
-                    .Where(a => StringExtension.IsUrl(a))
-                    .Distinct()
-                    .ToList();
+                content = System.IO.File.ReadAllText(path);
             }
             catch (Exception ex)
             {
                 SetText(string.Format("ERROR: Can not read file {0}: {1}!", path, ex.Message));
             }
+            return content;
+        }
+
+        private void InitUrlDatas(string text)
+        {
+            // 读取文件
+            Task task = new Task(() =>
+            {
+                input = HtmlReader.GetUrls(text);
+            });
+            task.Start();
+
+            // 分类
+            Task tc = task.ContinueWith(t =>
+            {
+                http = input.Where(a => a.ToLower().StartsWith(Resource.Http_Protocol)).Distinct().ToList();
+                freeProtcol = input.Where(a => a.ToLower().StartsWith(Resource.Free_Protocol)).Distinct().ToList();
+                https = input.Where(a => a.ToLower().StartsWith(Resource.Https_Protocol)).Distinct().ToList();
+
+                if (AutoCheckHttps)
+                {
+                    http.AddRange(freeProtcol.Select(a => a.TrimStart('/').Insert(0, Resource.Http_Protocol)));
+                    http = http.Distinct().ToList();
+
+                    https.AddRange(http.Select(a => a.Insert(4, "s")));
+                    https = https.Distinct().ToList();
+                }
+                string inputData = string.Format("Effective urls: {0} http, {1} https.", http.Count, https.Count);
+                SetText(inputData);
+            });
+
+            // 输出分类结果
+            Task cwt = tc.ContinueWith(t =>
+            {
+                // this.rtb_output.AppendText(string.Format("Read {0} url(s) form file.{1}", this.input.Count, Environment.NewLine));
+                this.btn_Go.Enabled = true;
+
+            }, windowTaskScheduler);
         }
 
         /// <summary>
@@ -272,6 +277,12 @@ namespace UrlStatus
         }
     }
 
+    public enum SourceType
+    {
+        File,
+        URL
+    }
+
     public class OutPutList
     {
         public List<string> Output_OK { get; set; }
@@ -290,6 +301,28 @@ namespace UrlStatus
                     , Output_OK.Count, Http_Ok_Count, Http_Error_Count
                     , OutPut_Error.Count, Https_Ok_Count, Https_Error_Count
                     );
+            }
+        }
+
+        public string GetErrorUrls
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                if (OutPut_Error.Count > 0)
+                {
+                    sb.Append("Error Urls:");
+                    sb.Append(Environment.NewLine);
+                    for (int i = 0; i < OutPut_Error.Count; i++)
+                    {
+                        sb.Append(string.Format("\t{0}: {1}.{2}", i + 1, OutPut_Error[i], Environment.NewLine));
+                    }
+                }
+                else
+                {
+                    sb.Append("No Erro Urls.");
+                }
+                return sb.ToString();
             }
         }
     }
