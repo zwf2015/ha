@@ -38,6 +38,7 @@
             this.chb_AutoHttps = new System.Windows.Forms.CheckBox();
             this.btn_Go = new System.Windows.Forms.Button();
             this.rtb_output = new System.Windows.Forms.RichTextBox();
+            this.lab_Status = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -63,8 +64,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.rtb_output);
-            this.splitContainer1.Size = new System.Drawing.Size(676, 478);
-            this.splitContainer1.SplitterDistance = 133;
+            this.splitContainer1.Size = new System.Drawing.Size(784, 511);
+            this.splitContainer1.SplitterDistance = 142;
             this.splitContainer1.TabIndex = 0;
             // 
             // splitContainer2
@@ -79,14 +80,15 @@
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.chb_AutoHttps);
             this.splitContainer2.Panel2.Controls.Add(this.btn_Go);
-            this.splitContainer2.Size = new System.Drawing.Size(676, 133);
-            this.splitContainer2.SplitterDistance = 387;
+            this.splitContainer2.Size = new System.Drawing.Size(784, 142);
+            this.splitContainer2.SplitterDistance = 443;
             this.splitContainer2.TabIndex = 2;
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.lab_Status);
+            this.groupBox1.Controls.Add(this.chb_AutoHttps);
             this.groupBox1.Controls.Add(this.tbx_url);
             this.groupBox1.Controls.Add(this.rdoBtn_url);
             this.groupBox1.Controls.Add(this.rdoBtn_file);
@@ -94,7 +96,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(387, 133);
+            this.groupBox1.Size = new System.Drawing.Size(443, 142);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Input";
@@ -103,7 +105,7 @@
             // 
             this.tbx_url.Location = new System.Drawing.Point(94, 60);
             this.tbx_url.Name = "tbx_url";
-            this.tbx_url.Size = new System.Drawing.Size(100, 20);
+            this.tbx_url.Size = new System.Drawing.Size(347, 20);
             this.tbx_url.TabIndex = 4;
             this.tbx_url.Text = "http://www.newegg.com";
             this.tbx_url.TextChanged += new System.EventHandler(this.tbx_url_TextChanged);
@@ -136,7 +138,7 @@
             // 
             this.btn_Openfile.Location = new System.Drawing.Point(94, 23);
             this.btn_Openfile.Name = "btn_Openfile";
-            this.btn_Openfile.Size = new System.Drawing.Size(100, 21);
+            this.btn_Openfile.Size = new System.Drawing.Size(347, 21);
             this.btn_Openfile.TabIndex = 1;
             this.btn_Openfile.Text = "Openfile";
             this.btn_Openfile.UseVisualStyleBackColor = true;
@@ -147,7 +149,7 @@
             this.chb_AutoHttps.AutoSize = true;
             this.chb_AutoHttps.Checked = true;
             this.chb_AutoHttps.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chb_AutoHttps.Location = new System.Drawing.Point(13, 85);
+            this.chb_AutoHttps.Location = new System.Drawing.Point(24, 97);
             this.chb_AutoHttps.Name = "chb_AutoHttps";
             this.chb_AutoHttps.Size = new System.Drawing.Size(104, 17);
             this.chb_AutoHttps.TabIndex = 1;
@@ -157,9 +159,9 @@
             // 
             // btn_Go
             // 
-            this.btn_Go.Location = new System.Drawing.Point(64, 40);
+            this.btn_Go.Location = new System.Drawing.Point(30, 30);
             this.btn_Go.Name = "btn_Go";
-            this.btn_Go.Size = new System.Drawing.Size(76, 36);
+            this.btn_Go.Size = new System.Drawing.Size(114, 60);
             this.btn_Go.TabIndex = 0;
             this.btn_Go.Text = "go";
             this.btn_Go.UseVisualStyleBackColor = true;
@@ -170,17 +172,27 @@
             this.rtb_output.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtb_output.Location = new System.Drawing.Point(0, 0);
             this.rtb_output.Name = "rtb_output";
-            this.rtb_output.Size = new System.Drawing.Size(676, 341);
+            this.rtb_output.Size = new System.Drawing.Size(784, 365);
             this.rtb_output.TabIndex = 0;
             this.rtb_output.Text = "";
+            // 
+            // lab_Status
+            // 
+            this.lab_Status.AutoSize = true;
+            this.lab_Status.Location = new System.Drawing.Point(23, 120);
+            this.lab_Status.Name = "lab_Status";
+            this.lab_Status.Size = new System.Drawing.Size(90, 13);
+            this.lab_Status.TabIndex = 5;
+            this.lab_Status.Text = "Status: http, https";
             // 
             // Main
             // 
             this.AcceptButton = this.btn_Go;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(676, 478);
+            this.ClientSize = new System.Drawing.Size(784, 511);
             this.Controls.Add(this.splitContainer1);
+            this.MinimumSize = new System.Drawing.Size(800, 550);
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "UrlStatus";
@@ -191,7 +203,6 @@
             this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
-            this.splitContainer2.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
@@ -212,6 +223,7 @@
         private System.Windows.Forms.RadioButton rdoBtn_file;
         private System.Windows.Forms.TextBox tbx_url;
         private System.Windows.Forms.CheckBox chb_AutoHttps;
+        private System.Windows.Forms.Label lab_Status;
     }
 }
 

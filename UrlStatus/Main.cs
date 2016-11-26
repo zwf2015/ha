@@ -5,7 +5,6 @@ using System.Data;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -25,8 +24,12 @@ namespace UrlStatus
 
         List<string> input = new List<string>();
 
+        /// <summary>
+        /// 自动
+        /// </summary>
         bool AutoCheckHttps = true;
 
+        System.Windows.Forms.Timer t1 = new System.Windows.Forms.Timer();
         TaskScheduler windowTaskScheduler = null;
 
         public Main()
@@ -41,6 +44,9 @@ namespace UrlStatus
         {
             this.btn_Go.Enabled = false;
             this.tbx_url.Enabled = false;
+
+            t1.Interval = 100;
+            t1.Tick += T1_Tick;
         }
 
         private void btn_Go_Click(object sender, EventArgs e)
@@ -48,7 +54,7 @@ namespace UrlStatus
             this.btn_Go.Enabled = false;
             bool fromUrl = this.rdoBtn_url.Checked;
             string url = this.tbx_url.Text;
-
+            t1.Start();
             Task task = new Task(() =>
             {
                 if (fromUrl)
@@ -64,6 +70,53 @@ namespace UrlStatus
             {
                 DoCheck(windowTaskScheduler);
             });
+        }
+
+        private bool goBackX = false;
+        private bool goBackY = false;
+        private void T1_Tick(object sender, EventArgs e)
+        {
+            var innerX = this.btn_Go.Location.X;
+            var innerY = this.btn_Go.Location.Y;
+
+            var outerX = this.splitContainer2.Size.Width - this.splitContainer2.SplitterDistance - this.btn_Go.Width - 5;
+            var outerY = this.splitContainer2.Size.Height - this.btn_Go.Height;
+
+            if (goBackX)
+            {
+                innerX--;
+                if (innerX < 1)
+                {
+                    goBackX = false;
+                }
+            }
+            else
+            {
+                innerX++;
+                if (innerX > outerX)
+                {
+                    goBackX = true;
+                }
+            }
+
+            if (goBackY)
+            {
+                innerY--;
+                if (innerY < 1)
+                {
+                    goBackY = false;
+                }
+            }
+            else
+            {
+                innerY++;
+                if (innerY > outerY)
+                {
+                    goBackY = true;
+                }
+            }
+            var newPoint = new System.Drawing.Point(innerX, innerY);
+            this.btn_Go.Location = newPoint;
         }
 
         private void DoCheck(TaskScheduler windowTaskScheduler)
@@ -129,6 +182,7 @@ namespace UrlStatus
             Task t3 = task_Report.ContinueWith(t =>
             {
                 this.btn_Go.Enabled = true;
+                t1.Stop();
             }, cts.Token, TaskContinuationOptions.ExecuteSynchronously, windowTaskScheduler);
 
         }
