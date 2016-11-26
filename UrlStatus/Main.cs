@@ -56,6 +56,7 @@ namespace UrlStatus
                     SetText(string.Format("Reading html page: {0}...{1}", url, Environment.NewLine));
                     InitUrlDatas(HtmlReader.GetHtmlByUrl(url));
                 }
+                SetText(Environment.NewLine);
             });
 
             task.Start();
@@ -71,18 +72,20 @@ namespace UrlStatus
 
             Task<OutPutList> task_http = new Task<OutPutList>(() =>
             {
+                SetText("HTTP:");
                 OutPutList result = new OutPutList();
-                result.Output_OK = new List<string>();
-                result.OutPut_Error = new List<string>();
+                result.Output_OK = new List<RequestResult>();
+                result.OutPut_Error = new List<RequestResult>();
                 foreach (var url in http)
                 {
-                    if (HttpStatusCode.OK == DoRequest(url))
+                    var res = DoRequest(url);
+                    if (HttpStatusCode.OK == res.HttpStatusCode)
                     {
-                        result.Output_OK.Add(url);
+                        result.Output_OK.Add(res);
                     }
                     else
                     {
-                        result.OutPut_Error.Add(url);
+                        result.OutPut_Error.Add(res);
                     }
                 }
                 return result;
@@ -91,16 +94,18 @@ namespace UrlStatus
 
             Task<OutPutList> task_Https = task_http.ContinueWith((t) =>
             {
+                SetText("HTTPS:");
                 var result = t.Result;
                 foreach (var url in https)
                 {
-                    if (HttpStatusCode.OK == DoRequest(url))
+                    var res = DoRequest(url);
+                    if (HttpStatusCode.OK == res.HttpStatusCode)
                     {
-                        result.Output_OK.Add(url);
+                        result.Output_OK.Add(res);
                     }
                     else
                     {
-                        result.OutPut_Error.Add(url);
+                        result.OutPut_Error.Add(res);
                     }
                 }
                 return result;
@@ -116,6 +121,7 @@ namespace UrlStatus
                 SetText(Environment.NewLine);
                 SetText(output.GetErrorUrls);
                 SetText(Environment.NewLine);
+                SetText(output.GetHttpsErrorUrls);
 
                 return output;
             });
@@ -143,23 +149,26 @@ namespace UrlStatus
             }
         }
 
-        private HttpStatusCode DoRequest(string url)
+        private RequestResult DoRequest(string url)
         {
             WebRequest req = null;
             HttpWebResponse res = null;
-            HttpStatusCode hsc = HttpStatusCode.BadRequest;
+            RequestResult result = new RequestResult();
+            result.Url = url;
             try
             {
                 req = WebRequest.Create(url);
                 req.Timeout = 1000 * 10;
 
                 res = (HttpWebResponse)req.GetResponse();
-                hsc = res.StatusCode;
-                SetText(string.Format("{0}: {1}.", (int)hsc, url));
+                result.HttpStatusCode = res.StatusCode;
+                SetText(string.Format("\t{0}: {1}", (int)res.StatusCode, url));
             }
             catch (Exception ex)
             {
-                string errMsg = string.Format("Do Request of {0} Error: {1}.", url, ex.Message);
+                result.HttpStatusCode = HttpStatusCode.BadRequest;
+                result.Message = ex.Message;
+                string errMsg = string.Format("\tRequest of {0} is Error: {1}.", url, ex.Message);
                 SetText(errMsg);
                 LogManager.WriteLog(errMsg, ex);
             }
@@ -176,7 +185,7 @@ namespace UrlStatus
                 res = null;
                 req = null;
             }
-            return hsc;
+            return result;
         }
 
         private string ReadFile(string path)
@@ -285,12 +294,12 @@ namespace UrlStatus
 
     public class OutPutList
     {
-        public List<string> Output_OK { get; set; }
-        public List<string> OutPut_Error { get; set; }
-        public int Http_Ok_Count { get { return Output_OK.Count(x => x.StartsWith(Resource.Http_Protocol)); } }
-        public int Https_Ok_Count { get { return Output_OK.Count(x => x.StartsWith(Resource.Https_Protocol)); } }
-        public int Http_Error_Count { get { return OutPut_Error.Count(x => x.StartsWith(Resource.Http_Protocol)); } }
-        public int Https_Error_Count { get { return OutPut_Error.Count(x => x.StartsWith(Resource.Https_Protocol)); } }
+        public List<RequestResult> Output_OK { get; set; }
+        public List<RequestResult> OutPut_Error { get; set; }
+        public int Http_Ok_Count { get { return Output_OK.Count(x => x.Url.StartsWith(Resource.Http_Protocol)); } }
+        public int Https_Ok_Count { get { return Output_OK.Count(x => x.Url.StartsWith(Resource.Https_Protocol)); } }
+        public int Http_Error_Count { get { return OutPut_Error.Count(x => x.Url.StartsWith(Resource.Http_Protocol)); } }
+        public int Https_Error_Count { get { return OutPut_Error.Count(x => x.Url.StartsWith(Resource.Https_Protocol)); } }
         public string GetReport
         {
             get
@@ -315,7 +324,8 @@ namespace UrlStatus
                     sb.Append(Environment.NewLine);
                     for (int i = 0; i < OutPut_Error.Count; i++)
                     {
-                        sb.Append(string.Format("\t{0}: {1}.{2}", i + 1, OutPut_Error[i], Environment.NewLine));
+                        var result = OutPut_Error[i];
+                        sb.Append(string.Format("\t{0}: {1}{2}\t    Error:{3}{2}", i + 1, result.Url, Environment.NewLine, result.Message));
                     }
                 }
                 else
@@ -325,8 +335,46 @@ namespace UrlStatus
                 return sb.ToString();
             }
         }
+
+        public string GetHttpsErrorUrls
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                var diff = new List<RequestResult>();
+                var httpsErrors = OutPut_Error.Where(x => x.Url.StartsWith(Resource.Https_Protocol)).ToList();
+                var httpOks = Output_OK.Where(x => x.Url.StartsWith(Resource.Http_Protocol)).ToList();
+
+                diff = (from error in httpsErrors
+                        join ok in httpOks
+                        on error.Url.Remove(4, 1) equals ok.Url
+                        select error).ToList();
+
+                if (diff.Any())
+                {
+                    sb.Append("Need check Urls:(http is ok, but https is error.)");
+                    sb.Append(Environment.NewLine);
+                    for (int i = 0; i < diff.Count; i++)
+                    {
+                        var result = diff[i];
+                        sb.Append(string.Format("\t{0}: {1}{2}\t    Error: {3}{2}", i + 1, result.Url, Environment.NewLine, result.Message));
+                    }
+                }
+                else
+                {
+                    sb.Append("All http urls is ok under the https protocol.");
+                }
+                return sb.ToString();
+            }
+        }
     }
 
     delegate void SetTextCallback(string text);
 
+    public class RequestResult
+    {
+        public HttpStatusCode HttpStatusCode { get; set; }
+        public string Url { get; set; }
+        public string Message { get; set; }
+    }
 }

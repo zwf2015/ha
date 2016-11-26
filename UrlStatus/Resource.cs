@@ -18,7 +18,7 @@ namespace UrlStatus
         /// <summary>
         /// from microsoft: https://msdn.microsoft.com/en-us/library/ff650303.aspx#paght000001_commonregularexpressions
         /// </summary>
-        public const string UrlRegex1 = @"(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&amp;%\$#_]*)?";
+        public const string UrlRegex1 = @"(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&amp;%\$#=_\|\:]*)?";
 
         /// <summary>
         /// from http://regexr.com/
