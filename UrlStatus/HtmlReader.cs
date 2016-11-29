@@ -1,8 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
-using System.Linq;
 using System.Text;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace UrlStatus
@@ -44,24 +43,45 @@ namespace UrlStatus
         }
 
         /// <summary>
-        /// Regex urls from text.
+        /// Do request of <paramref name="url"/>.
         /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
-        public static List<string> GetUrls(string text)
+        /// <param name="url">url</param>
+        /// <returns><see cref="RequestResult"/></returns>
+        public static RequestResult DoRequest(string url)
         {
-            var urls = new List<string>();
-            if (!string.IsNullOrWhiteSpace(text))
+            WebRequest req = null;
+            HttpWebResponse res = null;
+            RequestResult result = new RequestResult();
+            result.Url = url;
+            try
             {
-                Regex rex = new Regex(Resource.UrlRegex1, RegexOptions.IgnoreCase);
-                MatchCollection mc = rex.Matches(text);
-                foreach (Match m in mc)
-                {
-                    urls.Add(m.Value);
-                }
-                return urls.Where(a => StringExtension.IsUrl(a)).Distinct().ToList();
+                req = WebRequest.Create(url);
+                req.Timeout = 1000 * 10;
+                ServicePointManager.ServerCertificateValidationCallback += (se, cert, chain, sslerror) => { return true; };
+                res = (HttpWebResponse)req.GetResponse();
+                result.HttpStatusCode = res.StatusCode;
             }
-            return urls;
+            catch (Exception ex)
+            {
+                result.HttpStatusCode = HttpStatusCode.BadRequest;
+                result.Message = ex.Message;
+                string errMsg = string.Format("\tRequest of {0} is Error: {1}.", url, ex.Message);
+                LogManager.Error(errMsg, ex);
+            }
+            finally
+            {
+                if (res != null)
+                {
+                    res.Close();
+                }
+                if (req != null)
+                {
+                    req.Abort();
+                }
+                res = null;
+                req = null;
+            }
+            return result;
         }
     }
 }

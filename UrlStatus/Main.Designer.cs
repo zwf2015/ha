@@ -39,6 +39,7 @@
             this.btn_Openfile = new System.Windows.Forms.Button();
             this.btn_Go = new System.Windows.Forms.Button();
             this.rtb_output = new System.Windows.Forms.RichTextBox();
+            this.lab_Saveas = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -87,6 +88,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.lab_Saveas);
             this.groupBox1.Controls.Add(this.lab_Status);
             this.groupBox1.Controls.Add(this.chb_AutoHttps);
             this.groupBox1.Controls.Add(this.tbx_url);
@@ -103,6 +105,7 @@
             // 
             // lab_Status
             // 
+            this.lab_Status.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lab_Status.AutoSize = true;
             this.lab_Status.ForeColor = System.Drawing.Color.Green;
             this.lab_Status.Location = new System.Drawing.Point(23, 120);
@@ -186,6 +189,18 @@
             this.rtb_output.TabIndex = 0;
             this.rtb_output.Text = "";
             // 
+            // lab_Saveas
+            // 
+            this.lab_Saveas.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lab_Saveas.AutoSize = true;
+            this.lab_Saveas.Location = new System.Drawing.Point(344, 120);
+            this.lab_Saveas.Name = "lab_Saveas";
+            this.lab_Saveas.Size = new System.Drawing.Size(93, 13);
+            this.lab_Saveas.TabIndex = 6;
+            this.lab_Saveas.TabStop = true;
+            this.lab_Saveas.Text = "Save report to file.";
+            this.lab_Saveas.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lab_Saveas_LinkClicked);
+            // 
             // Main
             // 
             this.AcceptButton = this.btn_Go;
@@ -197,7 +212,7 @@
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "UrlStatus";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.Main_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -225,6 +240,7 @@
         private System.Windows.Forms.TextBox tbx_url;
         private System.Windows.Forms.CheckBox chb_AutoHttps;
         private System.Windows.Forms.Label lab_Status;
+        private System.Windows.Forms.LinkLabel lab_Saveas;
     }
 }
 
