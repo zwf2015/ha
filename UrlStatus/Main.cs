@@ -53,6 +53,7 @@ namespace UrlStatus
         private void btn_Go_Click(object sender, EventArgs e)
         {
             this.btn_Go.Enabled = false;
+            this.splitContainer2.Enabled = false;
             bool fromUrl = this.rdoBtn_url.Checked;
             string url = this.tbx_url.Text;
             t1.Start();
@@ -60,10 +61,10 @@ namespace UrlStatus
             {
                 if (fromUrl)
                 {
-                    SetText(string.Format("Reading html page: {0}...{1}", url, Environment.NewLine));
+                    SetRtbText(string.Format("Reading html page: {0}...{1}", url, Environment.NewLine));
                     InitUrlDatas(HtmlReader.GetHtmlByUrl(url));
                 }
-                SetText(Environment.NewLine);
+                SetRtbText(Environment.NewLine);
             });
 
             task.Start();
@@ -72,6 +73,8 @@ namespace UrlStatus
                 DoCheck(windowTaskScheduler);
             });
         }
+
+        #region Button animation
 
         private bool goBackX = false;
         private bool goBackY = false;
@@ -120,64 +123,72 @@ namespace UrlStatus
             this.btn_Go.Location = newPoint;
         }
 
+        #endregion
+
         private void DoCheck(TaskScheduler windowTaskScheduler)
         {
-            SetText(string.Format("Start checking...{0}{1}", DateTime.Now, Environment.NewLine));
+            SetRtbText(string.Format("Start checking...{0}{1}", DateTime.Now, Environment.NewLine));
             Stopwatch so = new Stopwatch();
             so.Start();
             CancellationTokenSource cts = new CancellationTokenSource();
             Task<OutPutList> task_http = new Task<OutPutList>(() =>
             {
-                SetText("HTTP:");
                 OutPutList result = new OutPutList();
+                result.HttpTotalCount = http.Count;
+                result.HttpsTotalCount = https.Count;
                 result.Output_OK = new List<RequestResult>();
                 result.OutPut_Error = new List<RequestResult>();
-                foreach (var url in http)
+
+                new Task(() =>
                 {
-                    var res = DoRequest(url);
-                    if (HttpStatusCode.OK == res.HttpStatusCode)
+                    SetRtbText("HTTP Begin:");
+                    foreach (var url in http)
                     {
-                        result.Output_OK.Add(res);
+                        var res = DoRequest(url);
+                        if (HttpStatusCode.OK == res.HttpStatusCode)
+                        {
+                            result.Output_OK.Add(res);
+                        }
+                        else
+                        {
+                            result.OutPut_Error.Add(res);
+                        }
+                        SetLabText(result.GetStatus);
                     }
-                    else
+                }, TaskCreationOptions.AttachedToParent).Start();
+
+                new Task(() =>
+                {
+                    SetRtbText("HTTPS Begin:");
+                    foreach (var url in https)
                     {
-                        result.OutPut_Error.Add(res);
+                        var res = DoRequest(url);
+                        if (HttpStatusCode.OK == res.HttpStatusCode)
+                        {
+                            result.Output_OK.Add(res);
+                        }
+                        else
+                        {
+                            result.OutPut_Error.Add(res);
+                        }
+                        SetLabText(result.GetStatus);
                     }
-                }
+                }, TaskCreationOptions.AttachedToParent).Start();
                 return result;
             });
             task_http.Start();
 
-            Task<OutPutList> task_Https = task_http.ContinueWith((t) =>
-            {
-                SetText("HTTPS:");
-                var result = t.Result;
-                foreach (var url in https)
-                {
-                    var res = DoRequest(url);
-                    if (HttpStatusCode.OK == res.HttpStatusCode)
-                    {
-                        result.Output_OK.Add(res);
-                    }
-                    else
-                    {
-                        result.OutPut_Error.Add(res);
-                    }
-                }
-                return result;
-            });
-
-            Task task_Report = task_Https.ContinueWith(t =>
+            Task task_Report = task_http.ContinueWith(t =>
             {
                 var output = t.Result;
-                SetText(Environment.NewLine);
-                SetText(output.GetReport);
-                SetText(Environment.NewLine);
-                SetText("All task done!");
-                SetText(Environment.NewLine);
-                SetText(output.GetErrorUrls);
-                SetText(Environment.NewLine);
-                SetText(output.GetHttpsErrorUrls);
+                SetRtbText(Environment.NewLine);
+                SetRtbText(output.GetReport);
+                SetRtbText(Environment.NewLine);
+                SetRtbText("All task done!");
+                SetRtbText(Environment.NewLine);
+                SetRtbText(output.GetErrorUrls);
+                SetRtbText(Environment.NewLine);
+                SetRtbText(output.GetHttpsErrorUrls);
 
                 return output;
             });
@@ -185,7 +196,8 @@ namespace UrlStatus
             Task t3 = task_Report.ContinueWith(t =>
             {
                 so.Stop();
-                SetText(string.Format("EX Time: {0} s.", so.ElapsedMilliseconds / 1000));
+                SetRtbText(string.Format("EX Time: {0} s.", so.ElapsedMilliseconds / 1000));
+                this.splitContainer2.Enabled = true;
                 this.btn_Go.Enabled = true;
                 t1.Stop();
             }, cts.Token, TaskContinuationOptions.ExecuteSynchronously, windowTaskScheduler);
@@ -218,17 +230,17 @@ namespace UrlStatus
             {
                 req = WebRequest.Create(url);
                 req.Timeout = 1000 * 10;
-
+                ServicePointManager.ServerCertificateValidationCallback += (se, cert, chain, sslerror) => { return true; };
                 res = (HttpWebResponse)req.GetResponse();
                 result.HttpStatusCode = res.StatusCode;
-                SetText(string.Format("\t{0}: {1}", (int)res.StatusCode, url));
+                SetRtbText(string.Format("\t{0}: {1}", (int)res.StatusCode, url));
             }
             catch (Exception ex)
             {
                 result.HttpStatusCode = HttpStatusCode.BadRequest;
                 result.Message = ex.Message;
                 string errMsg = string.Format("\tRequest of {0} is Error: {1}.", url, ex.Message);
-                SetText(errMsg);
+                SetRtbText(errMsg);
                 LogManager.WriteLog(errMsg, ex);
             }
             finally
@@ -256,7 +268,7 @@ namespace UrlStatus
             }
             catch (Exception ex)
             {
-                SetText(string.Format("ERROR: Can not read file {0}: {1}!", path, ex.Message));
+                SetRtbText(string.Format("ERROR: Can not read file {0}: {1}!", path, ex.Message));
             }
             return content;
         }
@@ -286,13 +298,14 @@ namespace UrlStatus
                     https = https.Distinct().ToList();
                 }
                 string inputData = string.Format("Effective urls: {0} http, {1} https.", http.Count, https.Count);
-                SetText(inputData);
+                SetRtbText(inputData);
             });
 
             // 输出分类结果
             Task cwt = tc.ContinueWith(t =>
             {
                 // this.rtb_output.AppendText(string.Format("Read {0} url(s) form file.{1}", this.input.Count, Environment.NewLine));
+                SetLabText(string.Format("Status: http0/{0}, https0/{1}.", http.Count, https.Count));
                 this.btn_Go.Enabled = true;
 
             }, windowTaskScheduler);
@@ -325,17 +338,29 @@ namespace UrlStatus
             this.btn_Go.Enabled = StringExtension.IsUrl(this.tbx_url.Text);
         }
 
-        private void SetText(string text)
+        private void SetRtbText(string text)
         {
             if (this.rtb_output.InvokeRequired)
             {
-                this.Invoke(new SetTextCallback(SetText), text);
+                this.Invoke(new SetTextCallback(SetRtbText), text);
             }
             else
             {
                 this.rtb_output.AppendText(text);
                 this.rtb_output.AppendText(Environment.NewLine);
                 this.rtb_output.Focus();
+            }
+        }
+
+        private void SetLabText(string text)
+        {
+            if (this.lab_Status.InvokeRequired)
+            {
+                this.Invoke(new SetTextCallback(SetLabText), text);
+            }
+            else
+            {
+                this.lab_Status.Text = text;
             }
         }
 
@@ -353,6 +378,8 @@ namespace UrlStatus
 
     public class OutPutList
     {
+        public int HttpTotalCount { get; set; }
+        public int HttpsTotalCount { get; set; }
         public List<RequestResult> Output_OK { get; set; }
         public List<RequestResult> OutPut_Error { get; set; }
         public int Http_Ok_Count { get { return Output_OK.Count(x => x.Url.StartsWith(Resource.Http_Protocol)); } }
@@ -366,8 +393,8 @@ namespace UrlStatus
                 string report = "Report:\r\n\tType\tTotal\tOk\tError\r\n\thttp\t{0}\t{1}\t{2}\r\n\thttps\t{3}\t{4}\t{5}";
 
                 return string.Format(report
-                    , Output_OK.Count, Http_Ok_Count, Http_Error_Count
-                    , OutPut_Error.Count, Https_Ok_Count, Https_Error_Count
+                    , Http_Ok_Count + Http_Error_Count, Http_Ok_Count, Http_Error_Count
+                    , Https_Ok_Count + Https_Error_Count, Https_Ok_Count, Https_Error_Count
                     );
             }
         }
@@ -424,6 +451,19 @@ namespace UrlStatus
                     sb.Append("All http urls is ok under the https protocol.");
                 }
                 return sb.ToString();
+            }
+        }
+
+        public string GetStatus
+        {
+            get
+            {
+                string status = string.Format("Status: http{0}/{1}, https{2}/{3}.",
+                Output_OK.Count(a => a.Url.StartsWith(Resource.Http_Protocol)) + OutPut_Error.Count(a => a.Url.StartsWith(Resource.Http_Protocol)),
+                HttpTotalCount,
+                Output_OK.Count(a => a.Url.StartsWith(Resource.Https_Protocol)) + OutPut_Error.Count(a => a.Url.StartsWith(Resource.Https_Protocol)),
+                HttpsTotalCount);
+                return status;
             }
         }
     }

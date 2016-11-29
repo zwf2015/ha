@@ -1,0 +1,653 @@
+
+Report:
+	Type	Total	Ok	Error
+	http	493	    353	21
+	https	255	    140	234
+
+All task done!
+
+Need to check 214 Urls:(http is ok, but https is error.)
+	1: https://www.sina.com
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	2: https://www.163.com
+	    Error: The remote server returned an error: (503) Server Unavailable.
+
+	3: https://www.hah.com
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	4: https://www.google.cn/logos/holiday09_1.gif
+	    Error: The operation has timed out
+
+	5: https://www.neweg.com
+	    Error: The operation has timed out
+
+	6: https://www.newe.com?cm_sp=1-_-1-_-http%3a%2f%2fwww.newegg.com
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	7: https://neweggbusiness.com/promotions/PSU/12-2436/270x120.jpg
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	8: https://neweggbusiness.com/promotions/PSU/12-2436/270x120.jpg?cm_sp=B2BHomepage2012_BannerM2-_-PSU/12-2436-_-http%3a%2f%2fneweggbusiness.com%2fpromotions%2fPSU%2f12-2436%2f270x120.jpg
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	9: https://www.t2.com
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	10: https://c1.neweggimages.com.cn/NeweggPic2/Marketing/201206/midea/207x250.jpg
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	11: https://www.newegg.com.cn?cm_sp=Recertified/12-2234-_-Recertified/12-2234-_-http%3a%2f%2fpromotions.newegg.com%2fRecertified%2f12-2234%2f696x288.jpg
+	    Error: The operation has timed out
+
+	12: https://www.newegg.com.cn
+	    Error: The operation has timed out
+
+	13: https://Neweggbusiness.com/promotions/POS/12-3767/index.html
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	14: https://Neweggbusiness.com/promotions/POS/12-3767/index.html?cm_sp=peripherals-_-banner-_-http%3a%2f%2fNeweggbusiness.com%2fpromotions%2fPOS%2f12-3767%2findex.html
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	15: https://sc.68design.net/flashicon/images/flashicon-0005.swf
+	    Error: The operation has timed out
+
+	16: https://sc.68design.net/flashicon/images/flashicon-0002.swf
+	    Error: The operation has timed out
+
+	17: https://Neweggbusiness.com/promotions/Syba/13-0016/index.html?cm_sp=Cat_Hard-Drives-_-b2b/Syba/13-0016-_-http%3a%2f%2fpromotions.neweggbusiness.com%2fb2b%2fSyba%2f13-0016%2f118x118.jpg
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	18: https://neweggbusiness.com/promotions/PSU/12-2436/270x120.jpg?cm_sp=B2BHomepage2012_BannerM1-_-PSU/12-2436-_-http%3a%2f%2fneweggbusiness.com%2fpromotions%2fPSU%2f12-2436%2f270x120.jpg
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	19: https://neweggbusiness.com/promotions/PSU/12-2436/270x120.jpg?cm_sp=B2BHomepage2012_BannerM3-_-PSU/12-2436-_-http%3a%2f%2fneweggbusiness.com%2fpromotions%2fPSU%2f12-2436%2f270x120.jpg
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	20: https://www.spanish.com?cm_sp=Homepage2011_Bottom3-_-nepro/11-1473-_-http%3a%2f%2f
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	21: https://www.sss.com
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	22: https://www.trueme.net
+	    Error: The operation has timed out
+
+	23: https://www.newegg.com.cn?cm_sp=MSI/12-1673-_-MSI/12-1673-_-http%3a%2f%2fpromotions.newegg.com%2fMSI%2f12-1673%2f118x118.jpg
+	    Error: The operation has timed out
+
+	24: https://c3.neweggimages.com.cn/neweggpic2/neg/P640/A41-2X0-2RF.jpg
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	25: https://c4.neweggimages.com.cn/neweggpic2/neg/P640/A41-133-2HA.jpg?v=8EF305A4DEC24B25BFC1
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	26: https://c3.neweggimages.com.cn/neweggpic2/neg/P180/A1I-184-00G-03.jpg?v=
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	27: https://c1.neweggimages.com.cn/NeweggPic2/Marketing/201406/nuoao/771x245.jpg
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	28: https://c1.neweggimages.com.cn/NeweggPic2/Marketing/201406/phone_coupon2/771x245.jpg
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	29: https://c3.neweggimages.com.cn/neweggpic2/neg/P180/A1I-184-00C-02.jpg?v=
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	30: https://c1.neweggimages.com.cn/NeweggPic2/Marketing/201406/Crucial/771x245.jpg
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	31: https://c1.neweggimages.com.cn/NeweggPic2/Marketing/201405/mtl/0527/771x245.jpg
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	32: https://c1.neweggimages.com.cn/NeweggPic2/Marketing/201406/tuan623/230x218.jpg
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	33: https://c4.neweggimages.com.cn/neweggpic2/neg/P640/A31-033-4WE.jpg
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	34: https://c4.neweggimages.com.cn/neweggpic2/neg/P640/A10-706-68S.jpg
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	35: https://c4.neweggimages.com.cn/neweggpic2/neg/P640/A04-190-5QQ-03.jpg
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	36: https://c3.neweggimages.com.cn/neweggpic2/neg/P640/A41-032-2T2.jpg
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	37: https://c3.neweggimages.com.cn/neweggpic2/neg/P640/A16-032-7HV.jpg
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	38: https://img001.photo.21cn.com/photos/album/20101026/o/f5752f6726311b5447ecad95c665385f.jpg
+	    Error: The operation has timed out
+
+	39: https://c3.neweggimages.com.cn/neweggpic2/neg/P180/A28-800-66R.jpg?v=
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	40: https://c3.neweggimages.com.cn/neweggpic2/neg/P180/A6D-432-01S.jpg?v=
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	41: https://c1.neweggimages.com.cn/NeweggPic2/Marketing/201406/tuan619/230x218.jpg
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	42: https://c1.neweggimages.com.cn/NeweggPic2/Marketing/201405/resize/0509/yffk_771245.jpg
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	43: https://c1.neweggimages.com.cn/NeweggPic2/Marketing/201406/CUP/771x245.jpg
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	44: https://c1.neweggimages.com.cn/NeweggPic2/Marketing/201406/618kuanghuan/771x245.jpg
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	45: https://c4.neweggimages.com.cn/neweggpic2/neg/P144/A10-706-68S.jpg
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	46: https://c4.neweggimages.com.cn/neweggpic2/neg/P144/A24-108-393-03.jpg
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	47: https://c3.neweggimages.com.cn/neweggpic2/neg/P144/A48-1WK-652.jpg
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	48: https://c1.neweggimages.com.cn/NeweggPic2/Marketing/201406/worldcup/771x245.jpg
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	49: https://c1.neweggimages.com.cn/NeweggPic2/Marketing/201404/ym/0411/771x245.jpg
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	50: https://c3.neweggimages.com.cn/neweggpic2/neg/P180/A10-055-005.jpg?v=
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	51: https://c4.neweggimages.com.cn/neweggpic2/neg/P144/A36-048-AT5.jpg
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	52: https://c3.neweggimages.com.cn/neweggpic2/neg/P144/A48-468-68D.jpg?v=588AF46518D9471D919B
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	53: https://c1.neweggimages.com.cn/NeweggPic2/Marketing/201406/worldcup2/771x245.jpg
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	54: https://c4.neweggimages.com.cn/neweggpic2/neg/P640/A10-055-005.jpg?v=C492A42F82B54B078160
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	55: https://c3.neweggimages.com.cn/neweggpic2/neg/P300/A41-032-2T2.jpg?v=
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	56: https://c4.neweggimages.com.cn/neweggpic2/neg/P144/A04-112-5MS.jpg?v=7829C344602C4FFCA50F
+	    Error: The remote server returned an error: (407) Proxy Authentication Required.
+
+	57: https://www.neweggflash.com/promotions/sweepstakes/june-01/sweepstakes.html?icid=WP_TOP1_060114
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	58: https://www.newe.com?cm_sp=ComboStore_-_All-_-1-_-http%3a%2f%2fpromotions.newegg.com%2fGazelle%2f11-0737%2f160x350.jpg
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	59: https://s7jira01:8080/browse/ACCT-3065
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	60: https://s7jira01:8080/browse/ACCT-3068
+	    Error: The operation has timed out
+
+	61: https://www.newegg.com.cn?cm_sp=ComboStore_-_QTP_Test_BB-_-NVIDIA%2fCUDA092209-_-http%3a%2f%2fpromotions.newegg.com%2fNVIDIA%2fCUDA092209%2f118x118.gif
+	    Error: The operation has timed out
+
+	62: https://www.123.com
+	    Error: The operation has timed out
+
+	63: https://www.newegg.com.cn?cm_sp=1-_-1-_-http%3a%2f%2fw7creative01%2fUI_Projects%2fhome%2f20100323_b2b_Keith%2ftemplates%2fleaderboards%2fsample_winter.jpg
+	    Error: The operation has timed out
+
+	64: https://images1.fanpop.com/images/photos/2100000/Prison-Break-season-4-ad-prison-break-2131917-300-250.jpg
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	65: https://www.163.com/
+	    Error: The remote server returned an error: (503) Server Unavailable.
+
+	66: https://img15.tianya.cn/photo/2009/8/4/14234877_26885136.jpg
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	67: https://www.163.com/?cm_sp=http://www.163.com/-_-http://www.163.com/-_-http%3a%2f%2fwww.163.com%2f
+	    Error: The remote server returned an error: (503) Server Unavailable.
+
+	68: https://TestFlash.com?cm_sp=Homepage_Pillar-_-Seagate/11-3695-_-http%3a%2f%2fsc.68design.net%2fflashicon%2fimages%2fflashicon-0005.swf
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	69: https://sc.68design.net/flashicon/images/flashicon-0048.swf
+	    Error: The operation has timed out
+
+	70: https://sc.68design.net/flashicon/images/flashicon-0003.swf
+	    Error: The operation has timed out
+
+	71: https://sc.68design.net/flashicon/images/flashicon-0018.swf
+	    Error: The operation has timed out
+
+	72: https://neweggbusiness.com/promotions/Logisys/12-2338/696x288.jpg
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	73: https://www.zdnet.com/oculus-vr-sued-over-intellectual-property-theft-7000029771/
+	    Error: The operation has timed out
+
+	74: https://www.neweggflash.com/Ending
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	75: https://images17.newegg.com/is/image/newegg/26-140-138-TS?$S180$&amp;t=0813201
+	    Error: The remote server returned an error: (503) Server Unavailable.
+
+	76: https://neweggbusiness.com/promotions/Storage/12-2139/260x110.jpg
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	77: https://img.sootuu.com/vector/2006-4/2006420114717141.jpg
+	    Error: The operation has timed out
+
+	78: https://www.mjjq.com/pic/20080825/20080825222317512.jpg
+	    Error: The remote server returned an error: (404) Not Found.
+
+	79: https://www.mjjq.com/pic/20080825/20080825222317512.jpg?cm_sp=1-_-v-_-http%3a%2f%2fwww.mjjq.com%2fpic%2f20080825%2f20080825222317512.jpg
+	    Error: The remote server returned an error: (404) Not Found.
+
+	80: https://www.newegg1.com/test.swf
+	    Error: The operation has timed out
+
+	81: https://sc.68design.net/flashicon/images/flashicon-0001.swf
+	    Error: The operation has timed out
+
+	82: https://www.subscription.com?cm_sp=Homepage_HotLinks-_-nepro%2f15-3404-_-http%3a%2f%2fpromotions.newegg.com%2fnepro%2f15-3404%2f160x91.jpg
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	83: https://www.permier.com?cm_sp=Homepage_HotLinks-_-nepro%2f15-3404-_-http%3a%2f%2fpromotions.newegg.com%2fnepro%2f15-3404%2f160x91.jpg
+	    Error: The operation has timed out
+
+	84: https://my.e-banner.com/adlogo/en/images/BudgetBanner_en2.jpg
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	85: https://weibo.com/
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	86: https://sc.68design.net/flashicon/images/flashicon-0002.swf?cm_sp=jack-Flash1-_-jack-Flash1-_-http%3a%2f%2fsc.68design.net%2fflashicon%2fimages%2fflashicon-0002.swf
+	    Error: The operation has timed out
+
+	87: https://www.titlelink.com
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	88: https://www.163.com?cm_sp=ProductPage_CategoryStore-_-Marketplace%252f13-1654-_-http%3a%2f%2fpromotions.newegg.com%2fMarketplace%2f13-1654%2f539x243.jpg
+	    Error: The remote server returned an error: (503) Server Unavailable.
+
+	89: https://www.163.com?cm_sp=ProductPage_SubCategory-_-Marketplace%2525252f13-1654-_-http%3a%2f%2fpromotions.newegg.com%2fMarketplace%2f13-1654%2f539x243.jpg
+	    Error: The remote server returned an error: (503) Server Unavailable.
+
+	90: https://www.spanish.com?cm_sp=Homepage2011_Left2-_-Nikon/12-1729-_-http%3a%2f%2fsc.68design.net%2fflashicon%2fimages%2fflashicon-0048.swf
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	91: https://www.spanish.com?cm_sp=Homepage2011_Left2-_-Nikon/12-1729-_-http%3a%2f%2f
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	92: https://www.spanish.com?cm_sp=Homepage2011_BL-_-Nikon/12-1729-_-http%3a%2f%2f
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	93: https://www.spanish.com?cm_sp=Homepage2011_Bottom2-_-Rosewill/R12-070-_-http%3a%2f%2fpromotions.newegg.com%2fRosewill%2fR12-070%2f260x120.jpg
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	94: https://www.spanish.com?cm_sp=Homepage2011_Bottom1-_-nepro/11-1473-_-http%3a%2f%2fsc.68design.net%2fflashicon%2fimages%2fflashicon-0048.swf
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	95: https://www.spanish.com?cm_sp=Homepage2011_Bottom1-_-nepro/11-1473-_-http%3a%2f%2f
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	96: https://www.spanish.com?cm_sp=Homepage2011_Bottom2-_-nepro/11-1473-_-http%3a%2f%2f
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	97: https://www.spanish.com?cm_sp=Homepage2011_Bottom2-_-nepro/11-1473-_-http%3a%2f%2fimages10.newegg.com%2fNeweggImage%2fProductImageCompressAll200%2fA07Y_129799360617187500IjYL00HnY4.jpg%3ft%3d0518201
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	98: https://www.spanish.com?cm_sp=Homepage2011_Bottom2-_-nepro/11-1473-_-http%3a%2f%2fsc.68design.net%2fflashicon%2fimages%2fflashicon-0048.swf
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	99: https://www.spanish.com?cm_sp=Homepage2011_Bottom3-_-nepro/11-1473-_-http%3a%2f%2fsc.68design.net%2fflashicon%2fimages%2fflashicon-0048.swf
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	100: https://www.spanish.com?cm_sp=Homepage2011_Bottom4-_-nepro/11-1473-_-http%3a%2f%2fimages10.newegg.com%2fNeweggImage%2fProductImageCompressAll200%2fA03E_1_20110922_11211187.jpg%3ft%3d0518201
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	101: https://www.spanish.com?cm_sp=Homepage2011_Test-_-nepro/11-1473-_-http%3a%2f%2f
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	102: https://www.spanish.com?cm_sp=Homepage2011_Custom_1-_-nepro/12-1698-_-http%3a%2f%2fpromotions.newegg.com%2fnepro%2f12-1698%2f696x288.jpg
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	103: https://www.spanish.com?cm_sp=Homepage2011_Custom_2-_-nepro/12-1698-_-http%3a%2f%2fimages10.newegg.com%2fNeweggImage%2fProductImageCompressAll300%2f28-800-579-01.jpg
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	104: https://www.spanish.com?cm_sp=Homepage2011_Custom_3-_-desktop/053112-_-http%3a%2f%2fpromotions.newegg.com%2fdesktop%2f053112%2f696x288.jpg
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	105: https://www.csdn.net
+	    Error: The operation has timed out
+
+	106: https://www.spanish.com?cm_sp=Homepage2011_Announcement-_-Buffalo/12-1784-_-http%3a%2f%2fpromotions.newegg.com%2fBuffalo%2f12-1784%2f264x120.jpg
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	107: https://www.spanish.com?cm_sp=Homepage2011_Announcement-_-Buffalo/12-1784-_-http%3a%2f%2fsc.68design.net%2fflashicon%2fimages%2fflashicon-0048.swf
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	108: https://www.spanish.com?cm_sp=Homepage2011_Announcement-_-Buffalo/12-1784-_-http%3a%2f%2f
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	109: https://www.spanish.com?cm_sp=Homepage2011_Top-_-Marketplace/12-1680-_-http%3a%2f%2fpromotions.newegg.com%2fMarketplace%2f12-1680%2f696x288.jpg
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	110: https://www.spanish.com?cm_sp=Homepage2011_Top-_-Marketplace/12-1680-_-http%3a%2f%2fpromotions.newegg.com%2fAntec%2f12-1747%2fHomepage_696x288.jpg
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	111: https://www.spanish.com?cm_sp=Homepage2011_Top-_-Marketplace/12-1680-_-http%3a%2f%2fsc.68design.net%2fflashicon%2fimages%2fflashicon-0048.swf
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	112: https://www.spanish.com?cm_sp=Homepage2011_Top-_-Marketplace/12-1680-_-http%3a%2f%2f
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	113: https://www.spanish.com?cm_sp=Homepage2011_TopRight1-_-Marketplace/12-1680-_-http%3a%2f%2f
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	114: https://www.spanish.com?cm_sp=Homepage2011_TopRight1-_-Marketplace/12-1680-_-http%3a%2f%2fpromotions.newegg.com%2fhomepage%2fpillar%2fhomepage2011%2fbnr_lifestyle_home_2.jpg
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	115: https://www.spanish.com?cm_sp=Homepage2011_TopRight1-_-Marketplace/12-1680-_-http%3a%2f%2fsc.68design.net%2fflashicon%2fimages%2fflashicon-0048.swf
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	116: https://www.spanish.com?cm_sp=Homepage2011_TopRight2-_-Marketplace/12-1680-_-http%3a%2f%2fsc.68design.net%2fflashicon%2fimages%2fflashicon-0048.swf
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	117: https://www.spanish.com?cm_sp=Homepage2011_TopRight2-_-Marketplace/12-1680-_-http%3a%2f%2fimages10.newegg.com%2fNeweggImage%2fProductImageCompressAll200%2fA04W_1_20110325_85da091b-ff66-423a-a805-4591c8c4da21459827.jpg%3ft%3d0518201
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	118: https://www.spanish.com?cm_sp=Homepage2011_TopRight2-_-Marketplace/12-1680-_-http%3a%2f%2f
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	119: https://www.spanish.com?cm_sp=Homepage2011_Left1-_-Marketplace/12-1680-_-http%3a%2f%2f
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	120: https://www.spanish.com?cm_sp=Homepage2011_Left1-_-Tamron/12-1534-_-http%3a%2f%2fpromotions.newegg.com%2fTamron%2f12-1534%2f696x288.jpg
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	121: https://www.spanish.com?cm_sp=Homepage2011_Left1-_-Marketplace/12-1680-_-http%3a%2f%2fsc.68design.net%2fflashicon%2fimages%2fflashicon-0048.swf
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	122: https://www.spanish.com?cm_sp=Homepage2011_Left2-_-Nikon/12-1729-_-http%3a%2f%2fpromotions.newegg.com%2fNikon%2f12-1729%2f696x288.jpg
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	123: https://www.spanish.com?cm_sp=Homepage2011_Bottom3-_-nepro/11-1473-_-http%3a%2f%2fimages10.newegg.com%2fNeweggImage%2fProductImageCompressAll200%2fA039_1_20120215_1648914.jpg%3ft%3d0518201
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	124: https://wireless.newegg.com/template/simpleautocontent.aspx?pageid=10686&amp;referringdomain=newegg
+	    Error: The operation has timed out
+
+	125: https://wireless.newegg.com/template/simpleautocontent.aspx?pageid=11184&amp;r=newegg&amp;refcode1=EGG_0512_001_TabPg_WhyBuy
+	    Error: The operation has timed out
+
+	126: https://www.newegg4.com
+	    Error: The operation has timed out
+
+	127: https://wireless.newegg.com/r.aspx?oflag=specialoffer&amp;r=newegg&amp;p1pid=64242&amp;mode=0&amp;refcode1=EGG_0116_013_TabPg_TSRazrM&amp;cm_sp=CellPhonesTab-_-Pillars-_-PhonesService
+	    Error: The operation has timed out
+
+	128: https://wireless.newegg.com/mobile/?referringdomain=newegg&amp;oflag=specialoffer&amp;refcode1=EGG_0412_001_TabPg_SprEvoDesign&amp;cid=35159_028279d416b641edafd88a86a3e5632e&amp;zipcode=91786&amp;cm_sp=CellPhonesTab-_-Pillars-_-PhonesService
+	    Error: The operation has timed out
+
+	129: https://centraltest2.newegg.org
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	130: https://central2.newegg.org
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	131: https://wireless.newegg.com/r.aspx?oflag=specialoffer&amp;referringdomain=newegg&amp;p1pid=64591&amp;mode=0&amp;refcode1=EGG_0429_013_TopSellers_SprHtcOne&amp;cm_sp=CellPhonesTab-_-Pillars-_-PhonesService
+	    Error: The operation has timed out
+
+	132: https://wireless.newegg.com/r.aspx?oflag=specialoffer&amp;r=newegg&amp;p1pid=64291&amp;mode=0&amp;refcode1=EGG_0401_013_TabPg_TSvzwGS3&amp;cm_sp=CellPhonesTab-_-Pillars-_-PhonesService
+	    Error: The operation has timed out
+
+	133: https://wireless.newegg.com/r.aspx?oflag=specialoffer&amp;r=newegg&amp;p1pid=64294&amp;mode=0&amp;refcode1=EGG_0401_013_TabPg_TSvzwMaxxHD&amp;cm_sp=CellPhonesTab-_-Pillars-_-PhonesService
+	    Error: The operation has timed out
+
+	134: https://www.ciwmb.ca.gov/Electronics/Act2003
+	    Error: The operation has timed out
+
+	135: https://www.ciwmb.ca.gov/Electronics/Act2003&lt;/a&gt;
+	    Error: The operation has timed out
+
+	136: https://www.gamecrate.com/
+	    Error: The remote server returned an error: (503) Server Unavailable.
+
+	137: https://www.thermaltake.com
+	    Error: The operation has timed out
+
+	138: https://www.pioneerelectronics.com
+	    Error: The underlying connection was closed: The connection was closed unexpectedly.
+
+	139: https://aaa.com
+	    Error: The operation has timed out
+
+	140: https://biz.newegg3.com.sh/store/category.aspx
+	    Error: The remote name could not be resolved: 'biz.newegg3.com.sh'
+
+	141: https://www.Camcorders.com
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	142: https://www.newegg4.com/ProductSort/SubCategory.asp?SubCategory=32
+	    Error: The operation has timed out
+
+	143: https://www.york.com
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	144: https://www.newegg3.com
+	    Error: The operation has timed out
+
+	145: https://www.evercase.com
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	146: https://www.verbatim.com/
+	    Error: The remote server returned an error: (404) Not Found.
+
+	147: https://wireless.newegg.com/eCommerce/SpecialOffer.aspx?cid=35159_ac5eb4f8aa0647da850ea6a7abeaa8f
+	    Error: The operation has timed out
+
+	148: https://wireless.newegg.com/eCommerce/SpecialOffer.aspx?cid=35159_ac5eb4f8aa0647da850ea6a7abeaa8f8
+	    Error: The operation has timed out
+
+	149: https://wireless.newegg.com/eCommerce/SpecialOffer.aspx?cid=35159_19e21c29e7ee46dab9727b6f255d3901
+	    Error: The operation has timed out
+
+	150: https://wireless.newegg.com/mobile/?referringdomain=newegg&amp;refcode1=EGG_9999_001_LNav_CellPhoneWService&amp;name=cellphonesservice
+	    Error: The operation has timed out
+
+	151: https://www.tomshardware.com/motherboard/20030707/i875p-70.html
+	    Error: The operation has timed out
+
+	152: https://www6.tomshardware.com/motherboard/20030707/i875p-18.html
+	    Error: The operation has timed out
+
+	153: https://www.palm.com/us/promotions/
+	    Error: The operation has timed out
+
+	154: https://biz.newegg3.com.sh/ProductSort/BrandList.aspx
+	    Error: The remote name could not be resolved: 'biz.newegg3.com.sh'
+
+	155: https://www.caonima.com
+	    Error: The operation has timed out
+
+	156: https://test5.com
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	157: https://www.worldtimezone.com/faq.html
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	158: https://download.carrot2.org/stable/manual/#section.advanced-topics.fine-tuning.choosing-algorithm
+	    Error: The operation has timed out
+
+	159: https://neweggsds.wercsmart.com
+	    Error: The operation has timed out
+
+	160: https://purolator.ts2000.net/API/QuickTrack/
+	    Error: The operation has timed out
+
+	161: https://www.streamliteinc.com/PackageTracking/TrackMyPackageResult.aspx?refID=
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	162: https://api.aitworldwide.com/AITAPI.asmx
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	163: https://www.lasership.com/track/
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	164: https://www.dhl.com
+	    Error: The operation has timed out
+
+	165: https://etracking.cevalogistics.com/ShipmentTracking/getShipment.aspx?mode=A&amp;type=HWB&amp;d=30&amp;val=
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	166: https://newegg.v12.estore.catalograck.com/scripts/dciframes.js
+	    Error: The remote server returned an error: (400) Bad Request.
+
+	167: https://www.neweggmall.com/
+	    Error: The operation has timed out
+
+	168: https://feeds.my.aol.com/add.jsp?url=http://feeds.feedburner.com/Newegg
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	169: https://www.newsgator.com/ngs/subscriber/subext.aspx?url=http://www.newegg.com/Product/RSS.asp?Submit=RSSDailyDeals
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	170: https://www.newsgator.com/ngs/subscriber/subext.aspx?url=http://www.
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	171: https://p.sohei.org
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	172: https://www.opensource.org/licenses/mit-license.php
+	    Error: The operation has timed out
+
+	173: https://www.javascripttoolbox.com/lib/table/examples.php
+	    Error: The remote server returned an error: (404) Not Found.
+
+	174: https://www.javascripttoolbox.com/temp/table_cellindex.html
+	    Error: The remote server returned an error: (404) Not Found.
+
+	175: https://www.aitworldwide.com
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	176: https://www.cevalogistics.com
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	177: https://www.state.vt.us/tax/usetax
+	    Error: The underlying connection was closed: An unexpected error occurred on a send.
+
+	178: https://www.newegg.cn
+	    Error: The operation has timed out
+
+	179: https://www.nutrend.com/
+	    Error: The operation has timed out
+
+	180: https://blog.deconcept.com/swfobject/
+	    Error: The remote server returned an error: (404) Not Found.
+
+	181: https://digitalbush.com/projects/masked-input-plugin/#license
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	182: https://masonry.desandro.com
+	    Error: The operation has timed out
+
+	183: https://trainofthoughts.org/
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	184: https://www.quirksmode.org/blog/archives/2010/09/click_event_del.html
+	    Error: The operation has timed out
+
+	185: https://www.quirksmode.org/dom/events/tests/scroll.html
+	    Error: The operation has timed out
+
+	186: https://www.quirksmode.org/blog/archives/2008/04/delegating_the.html
+	    Error: The operation has timed out
+
+	187: https://www.quirksmode.org/dom/events/scroll.html
+	    Error: The operation has timed out
+
+	188: https://www.quirksmode.org/js/events_properties.html
+	    Error: The operation has timed out
+
+	189: https://www.thespanner.co.uk/2007/11/26/ultimate-xss-css-injection/
+	    Error: The request was aborted: Could not create SSL/TLS secure channel.
+
+	190: https://ns.adobe.com/xap/1.0/'
+	    Error: The remote server returned an error: (404) Not Found.
+
+	191: https://ns.adobe.com/xap/1.0/mm/'
+	    Error: The remote server returned an error: (404) Not Found.
+
+	192: https://tempuri.org/
+	    Error: The operation has timed out
+
+	193: https://tempuri.org/IPersonalizationService/GetRecommendation
+	    Error: The operation has timed out
+
+	194: https://tempuri.org/IPersonalizationService/GetRecommendation4CheckPage
+	    Error: The operation has timed out
+
+	195: https://tempuri.org/IPersonalizationService/GetPageRecommendation
+	    Error: The operation has timed out
+
+	196: https://tempuri.org/IPersonalizationService/GetPMonitorInfo
+	    Error: The operation has timed out
+
+	197: https://tempuri.org/ISmartSortService/GetProductItemList
+	    Error: The operation has timed out
+
+	198: https://tempuri.org/ISmartSortService/GetProductItemDetailInfoList
+	    Error: The operation has timed out
+
+	199: https://tempuri.org/ISmartSortService/GetSearchResultContent
+	    Error: The operation has timed out
+
+	200: https://tempuri.org/ISmartSortService/GetCacheInfo
+	    Error: The operation has timed out
+
+	201: https://tempuri.org/AITAPI/AITAPI
+	    Error: The operation has timed out
+
+	202: https://tempuri.org/AITAPI/AITAPI/ViewNextAvailableMAWBNum
+	    Error: The operation has timed out
+
+	203: https://tempuri.org/AITAPI/AITAPI/ReserveNextMAWBNum
+	    Error: The operation has timed out
+
+	204: https://tempuri.org/AITAPI/AITAPI/UploadPOs
+	    Error: The operation has timed out
+
+	205: https://tempuri.org/AITAPI/AITAPI/GetQuotesRequest
+	    Error: The operation has timed out
+
+	206: https://tempuri.org/AITAPI/AITAPI/GetQuotes
+	    Error: The operation has timed out
+
+	207: https://tempuri.org/AITAPI/AITAPI/UploadShipmentsRequest
+	    Error: The operation has timed out
+
+	208: https://tempuri.org/AITAPI/AITAPI/UploadShipmentsRS
+	    Error: The operation has timed out
+
+	209: https://tempuri.org/AITAPI/AITAPI/GetStatusRequest
+	    Error: The operation has timed out
+
+	210: https://www.gamecrate.com/.
+	    Error: The remote server returned an error: (503) Server Unavailable.
+
+	211: https://www.neweggmall.com/.
+	    Error: The operation has timed out
+
+	212: https://video.newegg.com/.
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	213: https://grepcode.com/file/repo1.maven.org/maven2/org.dspace.dependencies.solr/dspace-solr-solrj/1.4.0.1/org/apache/solr/client/solrj/impl/LBHttpSolrServer.java
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+	214: https://www.asrock.com
+	    Error: The remote server returned an error: (502) Bad Gateway.
+
+
+EX Time: 2419 s.

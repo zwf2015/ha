@@ -31,14 +31,14 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lab_Status = new System.Windows.Forms.Label();
+            this.chb_AutoHttps = new System.Windows.Forms.CheckBox();
             this.tbx_url = new System.Windows.Forms.TextBox();
             this.rdoBtn_url = new System.Windows.Forms.RadioButton();
             this.rdoBtn_file = new System.Windows.Forms.RadioButton();
             this.btn_Openfile = new System.Windows.Forms.Button();
-            this.chb_AutoHttps = new System.Windows.Forms.CheckBox();
             this.btn_Go = new System.Windows.Forms.Button();
             this.rtb_output = new System.Windows.Forms.RichTextBox();
-            this.lab_Status = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -101,6 +101,29 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Input";
             // 
+            // lab_Status
+            // 
+            this.lab_Status.AutoSize = true;
+            this.lab_Status.ForeColor = System.Drawing.Color.Green;
+            this.lab_Status.Location = new System.Drawing.Point(23, 120);
+            this.lab_Status.Name = "lab_Status";
+            this.lab_Status.Size = new System.Drawing.Size(124, 13);
+            this.lab_Status.TabIndex = 5;
+            this.lab_Status.Text = "Status: http0/0, https0/0";
+            // 
+            // chb_AutoHttps
+            // 
+            this.chb_AutoHttps.AutoSize = true;
+            this.chb_AutoHttps.Checked = true;
+            this.chb_AutoHttps.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chb_AutoHttps.Location = new System.Drawing.Point(24, 97);
+            this.chb_AutoHttps.Name = "chb_AutoHttps";
+            this.chb_AutoHttps.Size = new System.Drawing.Size(104, 17);
+            this.chb_AutoHttps.TabIndex = 1;
+            this.chb_AutoHttps.Text = "AutoCheckHttps";
+            this.chb_AutoHttps.UseVisualStyleBackColor = true;
+            this.chb_AutoHttps.CheckedChanged += new System.EventHandler(this.chb_AutoHttps_CheckedChanged);
+            // 
             // tbx_url
             // 
             this.tbx_url.Location = new System.Drawing.Point(94, 60);
@@ -144,19 +167,6 @@
             this.btn_Openfile.UseVisualStyleBackColor = true;
             this.btn_Openfile.Click += new System.EventHandler(this.btn_Openfile_Click);
             // 
-            // chb_AutoHttps
-            // 
-            this.chb_AutoHttps.AutoSize = true;
-            this.chb_AutoHttps.Checked = true;
-            this.chb_AutoHttps.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chb_AutoHttps.Location = new System.Drawing.Point(24, 97);
-            this.chb_AutoHttps.Name = "chb_AutoHttps";
-            this.chb_AutoHttps.Size = new System.Drawing.Size(104, 17);
-            this.chb_AutoHttps.TabIndex = 1;
-            this.chb_AutoHttps.Text = "AutoCheckHttps";
-            this.chb_AutoHttps.UseVisualStyleBackColor = true;
-            this.chb_AutoHttps.CheckedChanged += new System.EventHandler(this.chb_AutoHttps_CheckedChanged);
-            // 
             // btn_Go
             // 
             this.btn_Go.Location = new System.Drawing.Point(30, 30);
@@ -175,15 +185,6 @@
             this.rtb_output.Size = new System.Drawing.Size(784, 365);
             this.rtb_output.TabIndex = 0;
             this.rtb_output.Text = "";
-            // 
-            // lab_Status
-            // 
-            this.lab_Status.AutoSize = true;
-            this.lab_Status.Location = new System.Drawing.Point(23, 120);
-            this.lab_Status.Name = "lab_Status";
-            this.lab_Status.Size = new System.Drawing.Size(90, 13);
-            this.lab_Status.TabIndex = 5;
-            this.lab_Status.Text = "Status: http, https";
             // 
             // Main
             // 
