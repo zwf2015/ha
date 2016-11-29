@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -37,7 +38,7 @@ namespace UrlStatus
             ServicePointManager.DefaultConnectionLimit = 512;
             InitializeComponent();
             windowTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
-            string ignoreUrls = System.Configuration.ConfigurationSettings.AppSettings.Get("");
+            string ignoreUrls = System.Configuration.ConfigurationSettings.AppSettings.Get("ignores");
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -121,8 +122,10 @@ namespace UrlStatus
 
         private void DoCheck(TaskScheduler windowTaskScheduler)
         {
+            SetText(string.Format("Start checking...{0}{1}", DateTime.Now, Environment.NewLine));
+            Stopwatch so = new Stopwatch();
+            so.Start();
             CancellationTokenSource cts = new CancellationTokenSource();
-
             Task<OutPutList> task_http = new Task<OutPutList>(() =>
             {
                 SetText("HTTP:");
@@ -181,6 +184,8 @@ namespace UrlStatus
 
             Task t3 = task_Report.ContinueWith(t =>
             {
+                so.Stop();
+                SetText(string.Format("EX Time: {0} s.", so.ElapsedMilliseconds / 1000));
                 this.btn_Go.Enabled = true;
                 t1.Stop();
             }, cts.Token, TaskContinuationOptions.ExecuteSynchronously, windowTaskScheduler);
@@ -406,12 +411,12 @@ namespace UrlStatus
 
                 if (diff.Any())
                 {
-                    sb.Append("Need check Urls:(http is ok, but https is error.)");
+                    sb.Append(string.Format("Need to check {0} Urls:(http is ok, but https is error.)", diff.Count));
                     sb.Append(Environment.NewLine);
                     for (int i = 0; i < diff.Count; i++)
                     {
                         var result = diff[i];
-                        sb.Append(string.Format("\t{0}: {1}{2}\t    Error: {3}{2}", i + 1, result.Url, Environment.NewLine, result.Message));
+                        sb.Append(string.Format("\t{0}: {1}{2}\t    Error: {3}{2}{2}", i + 1, result.Url, Environment.NewLine, result.Message));
                     }
                 }
                 else
